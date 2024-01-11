@@ -6,7 +6,6 @@ import logging
 from typing import List, Dict
 from datetime import datetime, timedelta
 
-logging.basicConfig(level=logging.DEBUG)
 
 ALL_CURRENCY_CSV_FILENAME = "all_currency_data.csv"
 
@@ -37,10 +36,10 @@ class NbpFetcher:
             else:
                 logging.error(f"Error: Unable to fetch data. Response: {response.text}")
                 return
-
-        except Exception as e:
-            logging.error(f"An error occurred: {e}")
-            return
+        except requests.RequestException as e:
+            logging.error(f"An error occurred on the API request: {e}")
+        except ValueError as e:
+            logging.error(f"Error parsing JSON response: {e}")
 
 
 class CsvConverter(NbpFetcher):

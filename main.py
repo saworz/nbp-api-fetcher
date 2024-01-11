@@ -1,6 +1,10 @@
+import logging
+
 from server import app
 from apscheduler.schedulers.background import BackgroundScheduler
 from nbp_api import fetch_nbp_api
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 scheduler = BackgroundScheduler()
 job = scheduler.add_job(fetch_nbp_api, trigger="cron",
