@@ -1,13 +1,18 @@
+import os.path
 import pandas as pd
+
+from nbp_api import fetch_nbp_api, ALL_CURRENCY_CSV_FILENAME
 from typing import List, Dict
 from flask import Flask, request
 
-ALL_CURRENCY_CSV_FILENAME = "all_currency_data.csv"
 SELECTED_CURRENCY_CSV_FILENAME = "selected_currency_data.csv"
 app = Flask(__name__)
 
 
 def read_exchange_rates(requested_currencies: List[str]) -> Dict:
+    if not os.path.exists(ALL_CURRENCY_CSV_FILENAME):
+        fetch_nbp_api()
+
     df = pd.read_csv(ALL_CURRENCY_CSV_FILENAME)
     df.set_index("Date", inplace=True)
     filtered_df = df.filter(requested_currencies)
@@ -34,5 +39,7 @@ def save_exchange_rates():
         exchange_rates = request.get_json()['exchange_rates']
         df = pd.DataFrame.from_dict(exchange_rates)
         df.to_csv(SELECTED_CURRENCY_CSV_FILENAME)
-        return {"message": "Exchange rates saved successfully to selected_currency_data.csv"}, 200
+
+        currency_pairs = ", ".join(df.columns.tolist())
+        return {"message": f"Exchange rates for {currency_pairs} saved successfully to selected_currency_data.csv"}, 200
     return {"message": "Incorrect request"}, 400

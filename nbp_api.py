@@ -4,10 +4,11 @@ import pandas as pd
 import logging
 
 from typing import List, Dict
-from server import ALL_CURRENCY_CSV_FILENAME
 from datetime import datetime, timedelta
 
 logging.basicConfig(level=logging.DEBUG)
+
+ALL_CURRENCY_CSV_FILENAME = "all_currency_data.csv"
 
 
 class NbpFetcher:
