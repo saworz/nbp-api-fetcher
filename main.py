@@ -34,19 +34,43 @@ class NbpFetcher:
             return
 
 
-def get_mid_values(rates):
-    return [entry['mid'] for entry in rates]
+class CsvConverter(NbpFetcher):
+    def __init__(self, exchange_rates, fetcher_instance):
+        super().__init__(fetcher_instance.table_type, fetcher_instance.days_to_start, fetcher_instance.days_to_end)
+        self.exchange_rates = exchange_rates
 
+    def get_dates_column(self):
+        dates_range = [datetime.now() - timedelta(days=i) for i in range(self.days_to_start, self.days_to_end, -1)]
+        formatted_dates = [date.strftime("%Y-%m-%d") for date in dates_range]
+        return pd.DataFrame({"Date": formatted_dates})
+
+    @staticmethod
+    def get_mid_values(rates):
+        return [entry['mid'] for entry in rates]
+
+    def create_rates_df(self):
+        df = self.get_dates_column()
+
+        for key, value in self.exchange_rates.items():
+            rates_df = pd.DataFrame(value)
+            merged_df = pd.merge(df, rates_df, how='left', left_on='Date', right_on='effectiveDate')
+            merged_df.rename(columns={'mid': key}, inplace=True)
+            df[key] = merged_df[key]
+
+        return df
+
+    def save_rates(self):
+        df = self.create_rates_df()
+        print(df)
 
 if __name__ == '__main__':
     fetcher = NbpFetcher(table_type="a", days_to_start=90, days_to_end=0)
-    eur_rates = fetcher.fetch(currency="eur")
-    usd_rates = fetcher.fetch(currency="usd")
-    chf_rates = fetcher.fetch(currency="chf")
 
-    print(chf_rates['rates'])
-    # df = pd.DataFrame({"EUR/PLN": get_mid_values(eur_rates["rates"]),
-    #                    "USD/PLN": get_mid_values(usd_rates["rates"]),
-    #                    "CHF/PLN": get_mid_values(chf_rates["rates"])})
+    fetched_rates = {
+        "EUR/PLN": fetcher.fetch(currency="eur")["rates"],
+        "USD/PLN": fetcher.fetch(currency="usd")["rates"],
+        "CHF/PLN": fetcher.fetch(currency="chf")["rates"]
+    }
 
-    # print(df)
+    csv_converter = CsvConverter(exchange_rates=fetched_rates, fetcher_instance=fetcher)
+    csv_converter.save_rates()
