@@ -24,7 +24,7 @@ class NbpFetcher:
 
             if response.status_code == 200:
                 data = response.json()
-                return data
+                return data['rates']
             else:
                 print(f"Error: Unable to fetch data. Status code: {response.status_code}")
                 return
@@ -48,6 +48,12 @@ class CsvConverter(NbpFetcher):
     def get_mid_values(rates):
         return [entry['mid'] for entry in rates]
 
+    @staticmethod
+    def calculate_rates(df):
+        df["EUR/USD"] = df["EUR/PLN"] / df["USD/PLN"]
+        df["CHF/USD"] = df["CHF/PLN"] = df["USD/PLN"]
+        return df
+
     def create_rates_df(self):
         df = self.get_dates_column()
 
@@ -57,19 +63,21 @@ class CsvConverter(NbpFetcher):
             merged_df.rename(columns={'mid': key}, inplace=True)
             df[key] = merged_df[key]
 
+        df = self.calculate_rates(df)
         return df
 
     def save_rates(self):
         df = self.create_rates_df()
         print(df)
 
+
 if __name__ == '__main__':
     fetcher = NbpFetcher(table_type="a", days_to_start=90, days_to_end=0)
 
     fetched_rates = {
-        "EUR/PLN": fetcher.fetch(currency="eur")["rates"],
-        "USD/PLN": fetcher.fetch(currency="usd")["rates"],
-        "CHF/PLN": fetcher.fetch(currency="chf")["rates"]
+        "EUR/PLN": fetcher.fetch(currency="eur"),
+        "USD/PLN": fetcher.fetch(currency="usd"),
+        "CHF/PLN": fetcher.fetch(currency="chf")
     }
 
     csv_converter = CsvConverter(exchange_rates=fetched_rates, fetcher_instance=fetcher)
