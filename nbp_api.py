@@ -1,6 +1,8 @@
 import requests
 import pandas as pd
 import logging
+
+from main import ALL_CURRENCY_CSV_FILENAME
 from datetime import datetime, timedelta
 
 logging.basicConfig(level=logging.DEBUG)
@@ -28,7 +30,7 @@ class NbpFetcher:
 
             if response.status_code == 200:
                 data = response.json()
-                return data['rates']
+                return data["rates"]
             else:
                 logging.error(f"Error: Unable to fetch data. Response: {response.text}")
                 return
@@ -61,8 +63,8 @@ class CsvConverter(NbpFetcher):
 
         for key, value in self.exchange_rates.items():
             rates_df = pd.DataFrame(value)
-            merged_df = pd.merge(df, rates_df, how='left', left_on='Date', right_on='effectiveDate')
-            merged_df.rename(columns={'mid': key}, inplace=True)
+            merged_df = pd.merge(df, rates_df, how="left", left_on="Date", right_on="effectiveDate")
+            merged_df.rename(columns={"mid": key}, inplace=True)
             df[key] = merged_df[key]
 
         df = self.calculate_rates(df)
@@ -75,8 +77,7 @@ class CsvConverter(NbpFetcher):
 
         df = self.create_rates_df()
         try:
-            with open("all_currency_data.csv", "w", encoding="utf-8", newline="") as file:
-                df.to_csv(file, index=False)
+            df.to_csv(ALL_CURRENCY_CSV_FILENAME, index=False)
             logging.info("Data saved to all_currency_data.csv successfully.")
         except Exception as e:
             logging.error(f"Error while saving data to all_currency_data.csv: {e}")
