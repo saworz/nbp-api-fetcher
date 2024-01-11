@@ -1,8 +1,10 @@
+import './App.css';
+import MainPageView from "./components/MainPage/MainPageView";
 
 function App() {
   return (
-    <div>
-      <h1>Hello to my frontend</h1>
+    <div className="main-window">
+      <MainPageView />
     </div>
   );
 }
