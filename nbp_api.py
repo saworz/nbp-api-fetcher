@@ -1,9 +1,10 @@
 import requests
 import pandas as pd
 import logging
-
+import schedule
+import time
 from typing import List, Dict
-from main import ALL_CURRENCY_CSV_FILENAME
+from server import ALL_CURRENCY_CSV_FILENAME
 from datetime import datetime, timedelta
 
 logging.basicConfig(level=logging.DEBUG)
@@ -84,14 +85,16 @@ class CsvConverter(NbpFetcher):
             logging.error(f"Error while saving data to all_currency_data.csv: {e}")
 
 
-fetcher = NbpFetcher(table_type="a", days_to_start=90, days_to_end=0)
-currency_to_fetch = ["eur", "usd", "chf"]
-fetched_rates = {}
+def fetch_nbp_api():
+    logging.info("Starting currency data fetching job")
+    fetcher = NbpFetcher(table_type="a", days_to_start=90, days_to_end=0)
+    currency_to_fetch = ["eur", "usd", "chf"]
+    fetched_rates = {}
 
-for currency in currency_to_fetch:
-    rates = fetcher.fetch(currency)
-    if rates:
-        fetched_rates[f"{currency.upper()}/PLN"] = rates
+    for currency in currency_to_fetch:
+        rates = fetcher.fetch(currency)
+        if rates:
+            fetched_rates[f"{currency.upper()}/PLN"] = rates
 
-csv_converter = CsvConverter(exchange_rates=fetched_rates, fetcher_instance=fetcher)
-csv_converter.save_rates()
+    csv_converter = CsvConverter(exchange_rates=fetched_rates, fetcher_instance=fetcher)
+    csv_converter.save_rates()

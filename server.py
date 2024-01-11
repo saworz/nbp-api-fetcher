@@ -1,9 +1,9 @@
 import pandas as pd
-
+import schedule
 from typing import List, Dict
-from main import ALL_CURRENCY_CSV_FILENAME
 from flask import Flask, request
 
+ALL_CURRENCY_CSV_FILENAME = "all_currency_data.csv"
 SELECTED_CURRENCY_CSV_FILENAME = "selected_currency_data.csv"
 app = Flask(__name__)
 
@@ -23,6 +23,9 @@ def get_exchange_rates():
         return {"message": "No currencies to query received"}, 404
 
     exchange_rates = read_exchange_rates(requested_currencies)
+    if not exchange_rates:
+        return {"message": "Error loading exchange rates"}, 500
+
     return {"message": "CSV file queried successfully", "exchange_rates": exchange_rates}, 200
 
 
@@ -34,3 +37,9 @@ def save_exchange_rates():
         df.to_csv(SELECTED_CURRENCY_CSV_FILENAME)
         return {"message": "Exchange rates saved successfully to selected_currency_data.csv"}, 200
     return {"message": "Incorrect request"}, 400
+
+
+def fetch_nbp():
+    print('hello')
+
+
