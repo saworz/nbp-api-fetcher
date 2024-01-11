@@ -1,5 +1,4 @@
 import pandas as pd
-import schedule
 from typing import List, Dict
 from flask import Flask, request
 
@@ -37,9 +36,3 @@ def save_exchange_rates():
         df.to_csv(SELECTED_CURRENCY_CSV_FILENAME)
         return {"message": "Exchange rates saved successfully to selected_currency_data.csv"}, 200
     return {"message": "Incorrect request"}, 400
-
-
-def fetch_nbp():
-    print('hello')
-
-

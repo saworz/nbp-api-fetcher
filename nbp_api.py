@@ -1,10 +1,8 @@
 import os.path
-
 import requests
 import pandas as pd
 import logging
-import schedule
-import time
+
 from typing import List, Dict
 from server import ALL_CURRENCY_CSV_FILENAME
 from datetime import datetime, timedelta
@@ -82,6 +80,7 @@ class CsvConverter(NbpFetcher):
         df = self.create_rates_df()
         try:
             if os.path.exists(ALL_CURRENCY_CSV_FILENAME):
+                logging.debug(f"{ALL_CURRENCY_CSV_FILENAME} already exists, concatenating dataframes")
                 existing_df = pd.read_csv(ALL_CURRENCY_CSV_FILENAME)
                 df = pd.concat([existing_df, df])
 
@@ -91,7 +90,7 @@ class CsvConverter(NbpFetcher):
             logging.error(f"Error while saving data to all_currency_data.csv: {e}")
 
 
-def fetch_nbp_api():
+def fetch_nbp_api() -> None:
     logging.info("Starting currency data fetching job")
     fetcher = NbpFetcher(table_type="a", days_to_start=90, days_to_end=0)
     currency_to_fetch = ["eur", "usd", "chf"]
