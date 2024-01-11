@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 import logging
 
+from typing import List, Dict
 from main import ALL_CURRENCY_CSV_FILENAME
 from datetime import datetime, timedelta
 
@@ -15,14 +16,14 @@ class NbpFetcher:
         self.days_to_end = days_to_end
 
     @staticmethod
-    def format_date(days_delta):
+    def format_date(days_delta: int) -> str:
         date = datetime.now() - timedelta(days=days_delta)
         return date.strftime("%Y-%m-%d")
 
-    def fetch(self, currency):
+    def fetch(self, currency_name: str) -> List[Dict] | None:
         start_date = self.format_date(self.days_to_start)
         end_date = self.format_date(self.days_to_end)
-        api_url = f"http://api.nbp.pl/api/exchangerates/rates/{self.table_type}/{currency}/{start_date}/{end_date}/"
+        api_url = f"https://api.nbp.pl/api/exchangerates/rates/{self.table_type}/{currency_name}/{start_date}/{end_date}/"
 
         try:
             response = requests.get(api_url)
@@ -45,7 +46,7 @@ class CsvConverter(NbpFetcher):
         super().__init__(fetcher_instance.table_type, fetcher_instance.days_to_start, fetcher_instance.days_to_end)
         self.exchange_rates = exchange_rates
 
-    def get_dates_column(self):
+    def get_dates_column(self) -> pd.DataFrame:
         dates_range = [datetime.now() - timedelta(days=i) for i in
                        range(self.days_to_start - 1, self.days_to_end - 1, -1)]
 
@@ -53,12 +54,12 @@ class CsvConverter(NbpFetcher):
         return pd.DataFrame({"Date": formatted_dates})
 
     @staticmethod
-    def calculate_rates(df):
+    def calculate_rates(df: pd.DataFrame) -> pd.DataFrame:
         df["EUR/USD"] = (df["EUR/PLN"] / df["USD/PLN"]).round(4)
         df["CHF/USD"] = (df["CHF/PLN"] / df["USD/PLN"]).round(4)
         return df
 
-    def create_rates_df(self):
+    def create_rates_df(self) -> pd.DataFrame:
         df = self.get_dates_column()
 
         for key, value in self.exchange_rates.items():
@@ -70,7 +71,7 @@ class CsvConverter(NbpFetcher):
         df = self.calculate_rates(df)
         return df
 
-    def save_rates(self):
+    def save_rates(self) -> None:
         if len(self.exchange_rates) == 0:
             logging.error("No exchange rates to save")
             return
