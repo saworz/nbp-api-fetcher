@@ -1,3 +1,5 @@
+import os.path
+
 import requests
 import pandas as pd
 import logging
@@ -79,6 +81,10 @@ class CsvConverter(NbpFetcher):
 
         df = self.create_rates_df()
         try:
+            if os.path.exists(ALL_CURRENCY_CSV_FILENAME):
+                existing_df = pd.read_csv(ALL_CURRENCY_CSV_FILENAME)
+                df = pd.concat([existing_df, df])
+
             df.to_csv(ALL_CURRENCY_CSV_FILENAME, index=False)
             logging.info("Data saved to all_currency_data.csv successfully.")
         except Exception as e:
