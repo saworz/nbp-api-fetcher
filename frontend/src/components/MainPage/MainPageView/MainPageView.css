@@ -32,3 +32,10 @@
 .single-button button {
   cursor: pointer;
 }
+
+.save-status {
+  color: white;
+  padding: 5px;
+  background-color: rgba(255,244,224,0.4);
+  border-radius: 3px;
+}

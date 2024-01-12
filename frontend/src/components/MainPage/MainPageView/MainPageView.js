@@ -1,14 +1,28 @@
 import "./MainPageView.css";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import SelectCurrencyWindow from "../SelectCurrencyWindow";
 import SaveButton from "../SaveButton";
 import DownloadButton from "../DownloadButton";
 
 const MainPageView = () => {
   const [selectedCurrencies, setSelectedCurrencies] = useState([]);
+  const [onSuccessfulSave, setOnSuccessfulSave] = useState(false);
   const handleSelectionChange = (newCurrencies) => {
     setSelectedCurrencies(newCurrencies);
   };
+
+  const handleSuccessfulSave = () => {
+    setOnSuccessfulSave(true)
+
+    setTimeout(() => {
+      setOnSuccessfulSave(false)
+    }, 5000)
+  }
+
+  useEffect(() => {
+    console.log('changing stae')
+    console.log(onSuccessfulSave)
+  }, [onSuccessfulSave]);
 
   return (
     <div className="content-div">
@@ -20,9 +34,15 @@ const MainPageView = () => {
           <DownloadButton selectedCurrencies={selectedCurrencies}/>
         </div>
         <div className="single-button">
-          <SaveButton selectedCurrencies={selectedCurrencies}/>
+          <SaveButton selectedCurrencies={selectedCurrencies} onSuccessfulSave={handleSuccessfulSave}/>
         </div>
       </div>
+
+      {onSuccessfulSave && (
+       <div className="save-status">
+        Data successfully saved to the server! ✔️
+      </div>
+      )}
     </div>
   );
 };

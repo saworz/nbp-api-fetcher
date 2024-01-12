@@ -50,7 +50,7 @@ export const DownloadButton = ({ selectedCurrencies }) => {
 
   return (
     <div>
-      <button onClick={handlePreviewClick}>Download as .CSV</button>
+      <button onClick={handlePreviewClick}>Download as .csv</button>
     </div>
   );
 };

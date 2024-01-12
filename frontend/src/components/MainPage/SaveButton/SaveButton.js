@@ -1,14 +1,33 @@
 import "./SaveButton.css"
 import postRatesToSave from "../../../api/PostRatesToSave";
+import { useState, useEffect } from "react";
 
-export const SaveButton = ({ selectedCurrencies }) => {
+export const SaveButton = ({ selectedCurrencies, onSuccessfulSave }) => {
+  const [saveSuccess, setSaveSuccess] = useState(false);
   const postData = async () => {
     try {
-      await postRatesToSave(selectedCurrencies);
+      const response = await postRatesToSave(selectedCurrencies);
+
+      if (response.status === 200) {
+        setSaveSuccess(true)
+      } else {
+        console.error("Failed to post data: ", response.status)
+      }
     } catch (error) {
-      console.error("Error fetching exchange rates:", error)
+      console.error("Error posting data: ", error)
     }
   };
+
+  useEffect(() => {
+    if (saveSuccess) {
+      onSuccessfulSave()
+      setTimeout(() => {
+        setSaveSuccess(false);
+        console.log("setting to false")
+      }, 5000);
+    }
+  }, [saveSuccess]);
+
   const handleSavingClick = async () => {
     await postData();
   };
