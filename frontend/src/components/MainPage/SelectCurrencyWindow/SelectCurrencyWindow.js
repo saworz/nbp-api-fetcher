@@ -3,7 +3,7 @@ import fetchCurrencyTypes from "../../../api/FetchCurrencyTypes";
 import {useEffect, useState} from "react";
 import CurrenciesRow from "../CurrenciesRow";
 
-export const SelectCurrencyWindow = () => {
+export const SelectCurrencyWindow = ({ onCurrenciesChange }) => {
   const [currencies, setCurrencies] = useState();
   useEffect(() => {
     const fetchData = async () => {
@@ -15,6 +15,11 @@ export const SelectCurrencyWindow = () => {
   }, []);
 
   const [selectedCurrencies, setSelectedCurrencies] = useState([]);
+
+  useEffect(() => {
+    onCurrenciesChange(selectedCurrencies);
+  }, [selectedCurrencies]);
+
 
   const handleCheckboxChange = (currencyPair) => {
     const isSelected = selectedCurrencies.some((selectedPair) => (
