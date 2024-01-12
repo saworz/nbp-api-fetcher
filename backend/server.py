@@ -11,11 +11,11 @@ app = Flask(__name__)
 
 
 class FileReader:
-    def __init__(self, file_path):
+    def __init__(self, file_path: str):
         self.file_path = file_path
         self.exchange_rates_df = None
 
-    def read_file(self):
+    def read_file(self) -> None:
         if not os.path.exists(self.file_path):
             fetch_nbp_api()
 
