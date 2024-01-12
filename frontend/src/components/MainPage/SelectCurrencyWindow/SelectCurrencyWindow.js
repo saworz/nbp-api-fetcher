@@ -1,6 +1,5 @@
 import './SelectCurrencyWindow.css'
 import fetchCurrencyTypes from "../../../api/FetchCurrencyTypes";
-import currenciesRow from "../CurrenciesRow";
 import {useEffect, useState} from "react";
 import CurrenciesRow from "../CurrenciesRow";
 
@@ -10,20 +9,41 @@ export const SelectCurrencyWindow = () => {
     const fetchData = async () => {
       const data = await fetchCurrencyTypes();
       setCurrencies(data)
-      console.log(data)
     };
 
     fetchData();
   }, []);
 
+  const [selectedCurrencies, setSelectedCurrencies] = useState([]);
 
+  const handleCheckboxChange = (currencyPair) => {
+    const isSelected = selectedCurrencies.some((selectedPair) => (
+      selectedPair === currencyPair
+    ));
+
+    if (isSelected) {
+      setSelectedCurrencies((prevSelected) => (
+        prevSelected.filter((selectedPair) => selectedPair !== currencyPair)
+      ));
+    } else {
+      setSelectedCurrencies((prevSelected) => [...prevSelected, currencyPair]);
+    }
+  };
+
+  console.log(selectedCurrencies)
   return (
     <div className='window'>
       {currencies !== undefined ? (
         <div className='currency-grid'>
           {currencies.map((currencyPair, index) => (
-            <div key={index} className='currency-item'>
-              <CurrenciesRow currencyPair={currencyPair}/>
+            <div key={index} className='currency-row'>
+              <div className='exchange-type'>
+                <CurrenciesRow currencyPair={currencyPair}/>
+              </div>
+              <input
+                type="checkbox"
+                onChange={() => handleCheckboxChange(currencyPair)}
+              />
             </div>
           ))}
         </div>

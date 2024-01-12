@@ -27,7 +27,7 @@ const MainPageView = () => {
 
   return (
     <div className="content-div">
-      <h2>Available currencies:</h2>
+      <h2>Choose exchange rates to save:</h2>
       <SelectCurrencyWindow />
     </div>
   );

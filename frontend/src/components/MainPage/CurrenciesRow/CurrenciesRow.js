@@ -24,11 +24,17 @@ const CurrenciesRow = ({currencyPair}) => {
   const baseCountryFlagUrl = getCountryFlagUrl(baseCountryCode)
   const targetCountryFlagUrl = getCountryFlagUrl(targetCountryCode)
 
-  console.log(baseCurrency, targetCurrency)
-  console.log(baseCountryFlagUrl, targetCountryFlagUrl)
   return (
-    <div>
-      {currencyPair}
+    <div className="flags">
+      {baseCountryFlagUrl && (
+        <img src={baseCountryFlagUrl} alt={baseCountryCode}/>
+      )}
+      <div className="exchange-text">
+        {baseCurrency} -> {targetCurrency}
+      </div>
+      {targetCountryFlagUrl && (
+        <img src={targetCountryFlagUrl} alt={targetCountryCode}/>
+      )}
     </div>
   );
 };

@@ -1,0 +1,19 @@
+.flags {
+  display: flex;
+  flex-direction: row;
+}
+
+.flags img{
+  max-width: 30px;
+  max-height: 30px;
+
+  margin: 0;
+}
+
+.exchange-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  margin-right: 10px;
+}
