@@ -1,6 +1,8 @@
 import './SelectCurrencyWindow.css'
 import fetchCurrencyTypes from "../../../api/FetchCurrencyTypes";
+import currenciesRow from "../CurrenciesRow";
 import {useEffect, useState} from "react";
+import CurrenciesRow from "../CurrenciesRow";
 
 export const SelectCurrencyWindow = () => {
   const [currencies, setCurrencies] = useState();
@@ -19,9 +21,9 @@ export const SelectCurrencyWindow = () => {
     <div className='window'>
       {currencies !== undefined ? (
         <div className='currency-grid'>
-          {currencies.map((currency, index) => (
+          {currencies.map((currencyPair, index) => (
             <div key={index} className='currency-item'>
-              {currency}
+              <CurrenciesRow currencyPair={currencyPair}/>
             </div>
           ))}
         </div>
