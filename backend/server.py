@@ -10,18 +10,44 @@ SELECTED_CURRENCY_CSV_FILENAME = "selected_currency_data.csv"
 app = Flask(__name__)
 
 
-def read_exchange_rates(requested_currencies: List[str]) -> Dict | None:
-    if not os.path.exists(ALL_CURRENCY_CSV_FILENAME):
-        fetch_nbp_api()
+class FileReader:
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self.exchange_rates_df = None
 
-    try:
-        df = pd.read_csv(ALL_CURRENCY_CSV_FILENAME)
-        df.set_index("Date", inplace=True)
-        filtered_df = df.filter(requested_currencies)
+    def read_file(self):
+        if not os.path.exists(self.file_path):
+            fetch_nbp_api()
+
+        try:
+            df = pd.read_csv(self.file_path)
+            df.set_index("Date", inplace=True)
+            self.exchange_rates_df = df
+
+        except Exception as e:
+            logging.error(f"An error occurred while reading exchange rates: {e}")
+            return None
+
+    def get_exchange_rates(self, requested_currencies: List[str]) -> Dict | None:
+        self.read_file()
+        filtered_df = self.exchange_rates_df.filter(requested_currencies)
         return filtered_df.to_dict()
-    except Exception as e:
-        logging.error(f"An error occurred while reading exchange rates: {e}")
-        return None
+
+    def get_currencies_list(self) -> List[str]:
+        self.read_file()
+        return self.exchange_rates_df.columns.tolist()
+
+
+file_reader = FileReader(ALL_CURRENCY_CSV_FILENAME)
+
+
+@app.route("/api/get_currency_types/", methods=["GET"])
+def get_currency_types():
+    currencies_list = file_reader.get_currencies_list()
+    if not currencies_list:
+        return {"message": "Error loading exchange rates"}, 500
+
+    return {"message": "CSV file read successfully", "currencies_list": currencies_list}, 200
 
 
 @app.route("/api/get_exchange_rates/", methods=["GET"])
@@ -31,7 +57,7 @@ def get_exchange_rates():
     if not requested_currencies:
         return {"message": "No currencies to query received"}, 404
 
-    exchange_rates = read_exchange_rates(requested_currencies)
+    exchange_rates = file_reader.get_exchange_rates(requested_currencies)
     if not exchange_rates:
         return {"message": "Error loading exchange rates"}, 500
 
