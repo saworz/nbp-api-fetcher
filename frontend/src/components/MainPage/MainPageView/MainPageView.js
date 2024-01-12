@@ -2,6 +2,8 @@ import './MainPageView.css';
 import React, { useState, useEffect } from 'react';
 import fetchCurrencyTypes from "../../../api/FetchCurrencyTypes";
 import fetchExchangeRates from "../../../api/FetchExchangeRates";
+import postRatesToSave from "../../../api/PostRatesToSave";
+
 
 const MainPageView = () => {
   const [currencies, setCurrencies] = useState([]);
@@ -9,7 +11,7 @@ const MainPageView = () => {
     const fetchData = async () => {
       const data = await fetchCurrencyTypes();
       setCurrencies(data)
-      console.log(data)
+      // console.log(data)
     };
 
     fetchData();
@@ -20,6 +22,15 @@ const MainPageView = () => {
     const fetchData = async () => {
       const data = await fetchExchangeRates();
       setExchangeRates(data)
+      // console.log(data)
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await postRatesToSave();
       console.log(data)
     };
 
