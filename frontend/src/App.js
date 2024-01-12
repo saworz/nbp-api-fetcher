@@ -3,7 +3,7 @@ import MainPageView from "./components/MainPage/MainPageView";
 
 function App() {
   return (
-    <div className="main-window">
+    <div className="app">
       <MainPageView />
     </div>
   );
