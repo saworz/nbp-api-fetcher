@@ -2,7 +2,7 @@ import './MainPageView.css';
 import React, { useState, useEffect } from 'react';
 import SelectCurrencyWindow from "../SelectCurrencyWindow";
 import SaveButton from "../SaveButton";
-import PreviewButton from "../PreviewButton";
+import DownloadButton from "../DownloadButton";
 
 const MainPageView = () => {
   const [selectedCurrencies, setSelectedCurrencies] = useState([]);
@@ -22,10 +22,10 @@ const MainPageView = () => {
 
       <div className="buttons-field">
         <div className="single-button">
-          <PreviewButton selectedCurrencies={selectedCurrencies}/>
+          <DownloadButton selectedCurrencies={selectedCurrencies}/>
         </div>
         <div className="single-button">
-          <SaveButton />
+          <SaveButton selectedCurrencies={selectedCurrencies}/>
         </div>
       </div>
     </div>

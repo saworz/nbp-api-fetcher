@@ -1,8 +1,8 @@
-import './PreviewButton.css'
+import './DownloadButton.css'
 import { useState, useEffect } from "react";
 import fetchExchangeRates from "../../../api/FetchExchangeRates";
 
-export const PreviewButton = ({ selectedCurrencies }) => {
+export const DownloadButton = ({ selectedCurrencies }) => {
   const [exchangeRates, setExchangeRates] = useState();
 
   const downloadExchangeRatesAsCSV = () => {
@@ -55,4 +55,4 @@ export const PreviewButton = ({ selectedCurrencies }) => {
   );
 };
 
-export default PreviewButton;
+export default DownloadButton;

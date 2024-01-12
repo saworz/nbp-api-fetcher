@@ -1,18 +1,23 @@
 import './SaveButton.css'
+import {useEffect, useState} from "react";
+import fetchExchangeRates from "../../../api/FetchExchangeRates";
+import postRatesToSave from "../../../api/PostRatesToSave";
 
-export const SaveButton = () => {
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const data = await postRatesToSave();
-  //     console.log(data)
-  //   };
-  //
-  //   fetchData();
-  // }, []);
+export const SaveButton = ({ selectedCurrencies }) => {
+  const postData = async () => {
+    try {
+      await postRatesToSave(selectedCurrencies);
+    } catch (error) {
+      console.error('Error fetching exchange rates:', error)
+    }
+  };
+  const handleSavingClick = async () => {
+    await postData();
+  };
 
   return (
     <div>
-      save button
+      <button onClick={handleSavingClick}>Save to server</button>
     </div>
   );
 };
