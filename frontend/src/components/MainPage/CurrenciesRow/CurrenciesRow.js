@@ -17,6 +17,15 @@ const CurrenciesRow = ({currencyPair}) => {
   const baseCountryCode = getCountryCodeByCurrencyCode(baseCurrency)
   const targetCountryCode = getCountryCodeByCurrencyCode(targetCurrency)
 
+  const getCountryFlagUrl = (countryCode) => {
+    return `https://flagcdn.com/${countryCode}.svg`
+  };
+
+  const baseCountryFlagUrl = getCountryFlagUrl(baseCountryCode)
+  const targetCountryFlagUrl = getCountryFlagUrl(targetCountryCode)
+
+  console.log(baseCurrency, targetCurrency)
+  console.log(baseCountryFlagUrl, targetCountryFlagUrl)
   return (
     <div>
       {currencyPair}
