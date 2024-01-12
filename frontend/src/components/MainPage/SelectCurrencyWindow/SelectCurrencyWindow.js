@@ -30,7 +30,6 @@ export const SelectCurrencyWindow = () => {
     }
   };
 
-  console.log(selectedCurrencies)
   return (
     <div className='window'>
       {currencies !== undefined ? (
@@ -40,7 +39,7 @@ export const SelectCurrencyWindow = () => {
               <div className='exchange-type'>
                 <CurrenciesRow currencyPair={currencyPair}/>
               </div>
-              <input
+              <input className="checkbox"
                 type="checkbox"
                 onChange={() => handleCheckboxChange(currencyPair)}
               />

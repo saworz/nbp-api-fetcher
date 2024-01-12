@@ -16,3 +16,11 @@
 .content-div h2{
   color: white;
 }
+
+.buttons-field {
+  display: flex;
+}
+
+.single-button {
+  margin: 20px;
+}
