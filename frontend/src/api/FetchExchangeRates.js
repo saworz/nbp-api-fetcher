@@ -7,8 +7,8 @@ export const fetchExchangeRates = async (selectedCurrencies) => {
 
   try {
     const response = await axios.get(finalUrl);
-    const jsonValidString = response.data.replace(/:\s*NaN/g, ': null');
-    return JSON.parse(jsonValidString)['exchange_rates'];
+    const jsonValidString = response.data.replace(/:\s*NaN/g, ": null");
+    return JSON.parse(jsonValidString)["exchange_rates"];
   } catch (error) {
     console.error("Error fetching data:", error)
   }

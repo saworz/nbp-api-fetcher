@@ -1,1 +1,1 @@
-export { default } from './SelectCurrencyWindow';
+export { default } from "./SelectCurrencyWindow";

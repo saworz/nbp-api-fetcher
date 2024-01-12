@@ -1,4 +1,4 @@
-import './DownloadButton.css'
+import "./DownloadButton.css"
 import { useState, useEffect } from "react";
 import fetchExchangeRates from "../../../api/FetchExchangeRates";
 
@@ -19,10 +19,10 @@ export const DownloadButton = ({ selectedCurrencies }) => {
     }
 
     const csvContent = Object.keys(csvData[0]).map(key => key + ',' + csvData.map(row => row[key]).join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const link = document.createElement('a');
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);
-    link.download = 'exchangeRates.csv';
+    link.download = "exchangeRates.csv";
 
     document.body.appendChild(link);
     link.click();
@@ -40,7 +40,7 @@ export const DownloadButton = ({ selectedCurrencies }) => {
       const data = await fetchExchangeRates(selectedCurrencies);
       setExchangeRates(data);
     } catch (error) {
-      console.error('Error fetching exchange rates:', error)
+      console.error("Error fetching exchange rates:", error)
     }
   };
 

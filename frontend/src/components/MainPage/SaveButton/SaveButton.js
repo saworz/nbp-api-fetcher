@@ -8,7 +8,7 @@ export const SaveButton = ({ selectedCurrencies }) => {
     try {
       await postRatesToSave(selectedCurrencies);
     } catch (error) {
-      console.error('Error fetching exchange rates:', error)
+      console.error("Error fetching exchange rates:", error)
     }
   };
   const handleSavingClick = async () => {

@@ -1,4 +1,4 @@
-import './CurrenciesRow.css';
+import "./CurrenciesRow.css";
 import currencies from "../../../data/currencies";
 
 const CurrenciesRow = ({currencyPair}) => {
