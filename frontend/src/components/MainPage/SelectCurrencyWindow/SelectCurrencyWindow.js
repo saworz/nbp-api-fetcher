@@ -1,6 +1,6 @@
 import "./SelectCurrencyWindow.css"
 import fetchCurrencyTypes from "../../../api/FetchCurrencyTypes";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import CurrenciesRow from "../CurrenciesRow";
 
 export const SelectCurrencyWindow = ({ onCurrenciesChange }) => {
@@ -18,7 +18,6 @@ export const SelectCurrencyWindow = ({ onCurrenciesChange }) => {
 
   useEffect(() => {
     onCurrenciesChange(selectedCurrencies);
-    console.log(selectedCurrencies)
   }, [selectedCurrencies]);
 
   const handleCheckboxChange = (currencyPair) => {

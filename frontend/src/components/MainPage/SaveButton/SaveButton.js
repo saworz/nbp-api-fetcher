@@ -1,6 +1,4 @@
-import './SaveButton.css'
-import {useEffect, useState} from "react";
-import fetchExchangeRates from "../../../api/FetchExchangeRates";
+import "./SaveButton.css"
 import postRatesToSave from "../../../api/PostRatesToSave";
 
 export const SaveButton = ({ selectedCurrencies }) => {
