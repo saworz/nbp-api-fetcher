@@ -25,14 +25,6 @@
   margin: 20px;
 }
 
-.single-button:hover {
-  filter: brightness(90%);
-}
-
-.single-button button {
-  cursor: pointer;
-}
-
 .save-status {
   color: white;
   padding: 5px;

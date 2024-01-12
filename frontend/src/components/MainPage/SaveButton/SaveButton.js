@@ -2,7 +2,7 @@ import "./SaveButton.css"
 import postRatesToSave from "../../../api/PostRatesToSave";
 import { useState, useEffect } from "react";
 
-export const SaveButton = ({ selectedCurrencies, onSuccessfulSave }) => {
+export const SaveButton = ({ selectedCurrencies, onSuccessfulSave, disabled }) => {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const postData = async () => {
     try {
@@ -34,7 +34,11 @@ export const SaveButton = ({ selectedCurrencies, onSuccessfulSave }) => {
 
   return (
     <div>
-      <button onClick={handleSavingClick}>Save to server</button>
+      <button
+        onClick={handleSavingClick}
+        disabled={disabled}
+        className={disabled ? "disabled" : "enabled"}
+      >Save to server</button>
     </div>
   );
 };

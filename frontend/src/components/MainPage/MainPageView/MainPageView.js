@@ -19,10 +19,7 @@ const MainPageView = () => {
     }, 5000)
   }
 
-  useEffect(() => {
-    console.log('changing stae')
-    console.log(onSuccessfulSave)
-  }, [onSuccessfulSave]);
+  const disableButton = selectedCurrencies.length === 0;
 
   return (
     <div className="content-div">
@@ -31,10 +28,15 @@ const MainPageView = () => {
 
       <div className="buttons-field">
         <div className="single-button">
-          <DownloadButton selectedCurrencies={selectedCurrencies}/>
+          <DownloadButton
+            selectedCurrencies={selectedCurrencies}
+            disabled={disableButton}/>
         </div>
         <div className="single-button">
-          <SaveButton selectedCurrencies={selectedCurrencies} onSuccessfulSave={handleSuccessfulSave}/>
+          <SaveButton
+            selectedCurrencies={selectedCurrencies}
+            onSuccessfulSave={handleSuccessfulSave}
+            disabled={disableButton}/>
         </div>
       </div>
 

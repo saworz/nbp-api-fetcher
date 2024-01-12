@@ -2,7 +2,7 @@ import "./DownloadButton.css"
 import { useState, useEffect } from "react";
 import fetchExchangeRates from "../../../api/FetchExchangeRates";
 
-export const DownloadButton = ({ selectedCurrencies }) => {
+export const DownloadButton = ({ selectedCurrencies, disabled }) => {
   const [exchangeRates, setExchangeRates] = useState();
 
   const downloadExchangeRatesAsCSV = () => {
@@ -50,7 +50,11 @@ export const DownloadButton = ({ selectedCurrencies }) => {
 
   return (
     <div>
-      <button onClick={handlePreviewClick}>Download as .csv</button>
+      <button
+        onClick={handlePreviewClick}
+        disabled={disabled}
+        className={disabled ? "disabled" : "enabled"}
+      >Download as .csv</button>
     </div>
   );
 };
