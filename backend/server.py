@@ -30,6 +30,10 @@ class FileReader:
             logging.error(f"An error occurred while reading exchange rates: {e}")
             return None
 
+    def get_plain_df(self) -> pd.DataFrame:
+        self.read_file()
+        return self.exchange_rates_df
+
     def get_exchange_rates(self, requested_currencies: List[str]) -> Dict | None:
         self.read_file()
         filtered_df = self.exchange_rates_df.filter(requested_currencies)
@@ -71,13 +75,15 @@ def get_exchange_rates():
 def save_exchange_rates():
     if request.is_json:
         try:
-            exchange_rates = request.get_json()['exchange_rates']
-            df = pd.DataFrame.from_dict(exchange_rates)
-            df.to_csv(SELECTED_CURRENCY_CSV_FILENAME)
+            currency_pairs = request.get_json()['currency_pairs']
+            df = file_reader.get_plain_df()
 
-            currency_pairs = ", ".join(df.columns.tolist())
+            filtered_df = df[currency_pairs]
+            filtered_df.to_csv(SELECTED_CURRENCY_CSV_FILENAME)
+
             return {"message": f"Exchange rates for {currency_pairs} saved "
                                f"successfully to selected_currency_data.csv"}, 200
+
         except Exception as e:
             return {"message": f"Error while saving exchange rates: {e}"}, 500
     return {"message": "Incorrect request"}, 400
