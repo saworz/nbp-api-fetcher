@@ -1,7 +1,3 @@
-#csv files
-all_currency_data.csv
-selected_currency_data.csv
-
 # C extensions
 *.so
 

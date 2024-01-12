@@ -5,9 +5,11 @@ import logging
 from nbp_api import fetch_nbp_api, ALL_CURRENCY_CSV_FILENAME
 from typing import List, Dict
 from flask import Flask, request
+from flask_cors import CORS, cross_origin
 
 SELECTED_CURRENCY_CSV_FILENAME = "selected_currency_data.csv"
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 
 class FileReader:
@@ -64,7 +66,8 @@ def get_exchange_rates():
     return {"message": "CSV file queried successfully", "exchange_rates": exchange_rates}, 200
 
 
-@app.route("/api/save_exchange_rates/", methods=["POST"])
+@app.route("/api/save_exchange_rates/", methods=["POST", "OPTIONS"])
+@cross_origin()
 def save_exchange_rates():
     if request.is_json:
         try:
