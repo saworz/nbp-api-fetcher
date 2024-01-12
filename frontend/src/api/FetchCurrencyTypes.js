@@ -1,11 +1,9 @@
+import axios from "axios";
+
 export const fetchCurrencyTypes = async () => {
   try {
-    const response = await fetch("http://localhost:8000/api/get_currency_types");
-    if (response.ok) {
-      return await response.json();
-    } else {
-      console.error("Failed to fetch the data")
-    }
+    const response = await axios.get("http://127.0.0.1:5000/api/get_currency_types");
+    return response.data['currencies_list']
   } catch (error) {
     console.error("Error fetching data:", error)
   }

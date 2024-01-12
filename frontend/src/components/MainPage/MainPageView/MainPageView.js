@@ -8,6 +8,7 @@ const MainPageView = () => {
     const fetchData = async () => {
       const data = await fetchCurrencyTypes();
       setCurrencies(data)
+      console.log(data)
     };
 
     fetchData();
@@ -17,11 +18,6 @@ const MainPageView = () => {
   return (
     <div className="content-div">
       <h2>Available currencies:</h2>
-      <ul>
-        {currencies.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
     </div>
   );
 };
