@@ -1,6 +1,7 @@
 import './MainPageView.css';
 import React, { useState, useEffect } from 'react';
 import fetchCurrencyTypes from "../../../api/FetchCurrencyTypes";
+import fetchExchangeRates from "../../../api/FetchExchangeRates";
 
 const MainPageView = () => {
   const [currencies, setCurrencies] = useState([]);
@@ -14,6 +15,16 @@ const MainPageView = () => {
     fetchData();
   }, []);
 
+  const [exchangeRates, setExchangeRates] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchExchangeRates();
+      setExchangeRates(data)
+      console.log(data)
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="content-div">
