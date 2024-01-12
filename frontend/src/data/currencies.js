@@ -994,3 +994,5 @@ export const currencies = [
     table: "b",
   },
 ];
+
+export default currencies;
