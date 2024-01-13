@@ -1,5 +1,5 @@
 import "./App.css";
-import MainPageView from "./components/MainPage/MainPageView";
+import MainPageView from "./views/MainPageView";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

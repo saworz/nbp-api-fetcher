@@ -1,8 +1,8 @@
 import "./MainPageView.css";
 import React, { useState } from "react";
-import SelectCurrencyWindow from "../SelectCurrencyWindow";
-import SaveButton from "../SaveButton";
-import DownloadButton from "../DownloadButton";
+import SelectCurrencyWindow from "../../components/MainPage/SelectCurrencyWindow";
+import SaveButton from "../../components/MainPage/SaveButton";
+import DownloadButton from "../../components/MainPage/DownloadButton";
 
 const MainPageView = () => {
   const [selectedCurrencies, setSelectedCurrencies] = useState([]);
