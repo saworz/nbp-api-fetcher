@@ -90,7 +90,7 @@ class CsvConverter(NbpFetcher):
             if os.path.exists(ALL_CURRENCY_CSV_FILENAME):
                 logging.debug(f"{ALL_CURRENCY_CSV_FILENAME} already exists, concatenating dataframes")
                 existing_df = pd.read_csv(ALL_CURRENCY_CSV_FILENAME)
-                df = pd.concat([existing_df, df])
+                df = pd.concat([existing_df, df]).drop_duplicates(subset=["Date"], keep="last")
 
             df.to_csv(ALL_CURRENCY_CSV_FILENAME, index=False)
             logging.info("Data saved to all_currency_data.csv successfully.")
