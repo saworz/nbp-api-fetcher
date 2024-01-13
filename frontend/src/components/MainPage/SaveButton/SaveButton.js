@@ -1,32 +1,27 @@
 import "./SaveButton.css"
 import postRatesToSave from "../../../api/PostRatesToSave";
-import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
-export const SaveButton = ({ selectedCurrencies, onSuccessfulSave, disabled }) => {
-  const [saveSuccess, setSaveSuccess] = useState(false);
+export const SaveButton = ({ selectedCurrencies, disabled }) => {
+
   const postData = async () => {
     try {
       const response = await postRatesToSave(selectedCurrencies);
 
       if (response.status === 200) {
-        setSaveSuccess(true)
+        toast.success(
+          `Data for ${selectedCurrencies.join(', ')} successfully saved to the server! ✔️`,
+          {theme: "dark"})
       } else {
         console.error("Failed to post data: ", response.status)
+        toast.error(
+          "Error occurred when saving data to the server ❌",
+          {theme: "dark"})
       }
     } catch (error) {
       console.error("Error posting data: ", error)
     }
   };
-
-  useEffect(() => {
-    if (saveSuccess) {
-      onSuccessfulSave()
-      setTimeout(() => {
-        setSaveSuccess(false);
-        console.log("setting to false")
-      }, 5000);
-    }
-  }, [saveSuccess]);
 
   const handleSavingClick = async () => {
     await postData();

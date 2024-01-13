@@ -6,19 +6,10 @@ import DownloadButton from "../DownloadButton";
 
 const MainPageView = () => {
   const [selectedCurrencies, setSelectedCurrencies] = useState([]);
-  const [successMessage, setSuccessMessage] = useState("")
   const [onSuccessfulSave, setOnSuccessfulSave] = useState(false);
   const handleSelectionChange = (newCurrencies) => {
     setSelectedCurrencies(newCurrencies);
   };
-
-  const handleSuccessfulSave = () => {
-    setOnSuccessfulSave(true)
-    setSuccessMessage(`Data for ${selectedCurrencies.join(', ')} successfully saved to the server! ✔️`)
-    setTimeout(() => {
-      setOnSuccessfulSave(false)
-    }, 5000)
-  }
 
   const disableButton = selectedCurrencies.length === 0;
 
@@ -36,16 +27,9 @@ const MainPageView = () => {
         <div className="single-button">
           <SaveButton
             selectedCurrencies={selectedCurrencies}
-            onSuccessfulSave={handleSuccessfulSave}
             disabled={disableButton}/>
         </div>
       </div>
-
-      {onSuccessfulSave && (
-       <div className="save-status">
-         {successMessage}
-      </div>
-      )}
     </div>
   );
 };

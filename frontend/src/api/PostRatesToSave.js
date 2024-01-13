@@ -1,4 +1,5 @@
 import axios from "axios";
+import {toast} from "react-toastify";
 
 export const postRatesToSave = async (currencyPairs) => {
   const requestData = JSON.stringify({ currency_pairs: currencyPairs})
@@ -11,6 +12,9 @@ export const postRatesToSave = async (currencyPairs) => {
     })
   } catch (error) {
     console.error("Error posting data:", error)
+    toast.error(
+  "Failed to send data to the server ❌",
+  {theme: "dark"})
   }
 };
 

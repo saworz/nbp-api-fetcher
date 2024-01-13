@@ -1,6 +1,7 @@
 import "./DownloadButton.css"
 import { useState, useEffect } from "react";
 import fetchExchangeRates from "../../../api/FetchExchangeRates";
+import { toast } from "react-toastify";
 
 export const DownloadButton = ({ selectedCurrencies, disabled }) => {
   const [exchangeRates, setExchangeRates] = useState();
@@ -31,7 +32,14 @@ export const DownloadButton = ({ selectedCurrencies, disabled }) => {
     };
 
     if (exchangeRates) {
-      downloadExchangeRatesAsCSV()
+      try {
+        downloadExchangeRatesAsCSV()
+      } catch {
+        toast.error(
+          "Failed to convert data to .csv ❌",
+          {theme: "dark"})
+      }
+
     }
   }, [exchangeRates]);
 
