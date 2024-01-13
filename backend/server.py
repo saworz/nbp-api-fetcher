@@ -70,6 +70,33 @@ def get_exchange_rates():
     return {"message": "CSV file queried successfully", "exchange_rates": exchange_rates}, 200
 
 
+@app.route("/api/analyze_data/", methods=["GET"])
+def analyze_data():
+    requested_currencies = request.args.getlist("currencies")
+
+    if not requested_currencies:
+        return {"message": "No currencies to query received"}, 404
+
+    df = file_reader.get_plain_df()
+
+    if df is None:
+        return {"message": "Error loading exchange rates"}, 500
+
+    filtered_df = df.filter(requested_currencies)
+    analyzed_data = {}
+
+    for column_name, column_values in filtered_df.items():
+        data_dict = {
+            "average_value": round(column_values.mean(), 4),
+            "median_value": round(column_values.median(), 4),
+            "min_value": round(column_values.min(), 4),
+            "max_value": round(column_values.max(), 4)
+        }
+        analyzed_data[column_name] = data_dict
+
+    return {"message": "Data analyzed successfully", "analyzed_data": analyzed_data}, 200
+
+
 @app.route("/api/save_exchange_rates/", methods=["POST", "OPTIONS"])
 @cross_origin()
 def save_exchange_rates():
