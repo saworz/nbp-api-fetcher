@@ -18,6 +18,7 @@ export const SelectCurrencyWindow = ({ onCurrenciesChange }) => {
 
   useEffect(() => {
     onCurrenciesChange(selectedCurrencies);
+    // eslint-disable-next-line
   }, [selectedCurrencies]);
 
   const handleCheckboxChange = (currencyPair) => {

@@ -6,7 +6,6 @@ import DownloadButton from "../DownloadButton";
 
 const MainPageView = () => {
   const [selectedCurrencies, setSelectedCurrencies] = useState([]);
-  const [onSuccessfulSave, setOnSuccessfulSave] = useState(false);
   const handleSelectionChange = (newCurrencies) => {
     setSelectedCurrencies(newCurrencies);
   };
