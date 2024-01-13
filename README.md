@@ -71,12 +71,19 @@ Success messages, errors and info are displayed for the user with react-toastify
 It makes creating popup messages pretty simple and it's easy to customize them.
 ![user-interaction-image](https://github.com/saworz/images/blob/main/nbp-fetcher-3.png?raw=true)
 
-### 6. Data analysis
+### 6. Error handling
+Errors occurring while fetching data or communicating with backend are displayed with react-toastify.
+They appear in the upper-right corner and provide simple error description. More precise error messages are displayed
+with Python's logging module and in browser's console.
+![error-handling-image](https://github.com/saworz/images/blob/main/nbp-fetcher-5.png?raw=true)
+
+
+### 7. Data analysis
 /api/analyze_data/ endpoint analyzes data for provided list of currency pairs. It also utilizes pandas library
 to find average, median, min and max values easily. They are returned to the frontend and displayed
 as info popups in the upper-left side of the screen. Results are visible on the image above.
 
-### 7. Cyclic fetching
+### 8. Cyclic fetching
 APScheduler takes care of fetching nbp exchange rates data once a day at 00:00. <b>fetch_nbp_api</b>
 function is used as a cyclic job and the scheduler is started by running main.py script.
 ![cyclic-task-image](https://github.com/saworz/images/blob/main/nbp-fetcher-4.png?raw=true)
