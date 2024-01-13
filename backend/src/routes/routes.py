@@ -1,7 +1,8 @@
 from flask import Blueprint
 from flask import request
 from flask_cors import cross_origin
-from ..utils import exchange_rates_filter, currencies_reader, csv_reader
+from ..utils import exchange_rates_filter, currencies_reader
+from ..utils.file_reading import CsvReader
 from ..constants import SELECTED_CURRENCY_CSV_FILENAME, ALL_CURRENCY_CSV_FILENAME
 routes = Blueprint('routes', __name__)
 
@@ -38,8 +39,8 @@ def analyze_data():
 
     if not requested_currencies:
         return {"message": "No currencies to query received"}, 404
-
-    df = csv_reader.read_file(file_path=ALL_CURRENCY_CSV_FILENAME)
+    csv_reader = CsvReader(file_path=ALL_CURRENCY_CSV_FILENAME)
+    df = csv_reader.read_file()
 
     if df is None:
         return {"message": "Error loading exchange rates"}, 500
@@ -66,7 +67,8 @@ def save_exchange_rates():
     if request.is_json:
         try:
             currency_pairs = request.get_json()["currency_pairs"]
-            df = csv_reader.read_file(file_path=ALL_CURRENCY_CSV_FILENAME)
+            csv_reader = CsvReader(file_path=ALL_CURRENCY_CSV_FILENAME)
+            df = csv_reader.read_file()
 
             filtered_df = df[currency_pairs]
             filtered_df.to_csv(SELECTED_CURRENCY_CSV_FILENAME)
