@@ -4,6 +4,7 @@ from flask_cors import CORS
 from .config.config import Config
 from apscheduler.schedulers.background import BackgroundScheduler
 from .utils.fetch_job import fetch_nbp_api
+from .routes.routes import routes
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -16,5 +17,5 @@ scheduler = BackgroundScheduler()
 job = scheduler.add_job(fetch_nbp_api, trigger="cron",
                         day="*", hour="00", minute="00", max_instances=1)
 
-from .routes.routes import routes
+
 app.register_blueprint(routes)
