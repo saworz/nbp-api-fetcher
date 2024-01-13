@@ -64,3 +64,14 @@ By selecting data with checkboxes user can choose currency pairs exchange rates 
 or to the server. <b>Download as .csv</b> button downloads .csv file with selected pairs and 
 <b>Save to server</b> saves the same file to the server.
 
+### 5. User interaction
+Success messages, errors and info are displayed for the user with react-toastify library.
+It makes creating popup messages pretty simple and it's easy to customize them.
+
+### 6. Data analysis
+/api/analyze_data/ endpoint analyzes data for provided list of currency pairs. It also utilizes pandas libary
+to find average, median, min and max values easily. They are returned to the frontend and displayed
+as info popups in the upper-left side of the screen.
+
+### 7. Cyclic fetching
+APScheduler takes care of fetching nbp exchange rates data once a day at 00:00.
