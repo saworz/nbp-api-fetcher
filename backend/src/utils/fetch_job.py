@@ -19,5 +19,8 @@ def fetch_nbp_api() -> None:
         if rates:
             fetched_rates[f"{currency.upper()}/PLN"] = rates
 
-    csv_converter = CsvConverter(fetched_rates, fetch_config)
+    csv_converter = CsvConverter(days_to_start=fetch_config["days_to_start"],
+                                 days_to_end=fetch_config["days_to_end"],
+                                 exchange_rates=fetched_rates)
+
     csv_converter.save_rates()

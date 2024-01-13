@@ -3,14 +3,15 @@ import pandas as pd
 import logging
 from datetime import datetime, timedelta
 from ..constants import ALL_CURRENCY_CSV_FILENAME
+from pydantic import BaseModel
+from typing import Dict, List
 
 
-class CsvConverter:
+class CsvConverter(BaseModel):
     """Handles saving data to .csv file"""
-    def __init__(self, exchange_rates, fetch_config):
-        self.days_to_start = fetch_config["days_to_start"]
-        self.days_to_end = fetch_config["days_to_end"]
-        self.exchange_rates = exchange_rates
+    days_to_start: int
+    days_to_end: int
+    exchange_rates: Dict[str, List[Dict]]
 
     def get_dates_column(self) -> pd.DataFrame:
         """Returns the dataframe with dates column"""
@@ -31,11 +32,11 @@ class CsvConverter:
         """Returns dataframe ready to save as csv"""
         df = self.get_dates_column()
 
-        for key, value in self.exchange_rates.items():
-            rates_df = pd.DataFrame(value)
+        for currency_key, currency_value in self.exchange_rates.items():
+            rates_df = pd.DataFrame(currency_value)
             merged_df = pd.merge(df, rates_df, how="left", left_on="Date", right_on="effectiveDate")
-            merged_df.rename(columns={"mid": key}, inplace=True)
-            df[key] = merged_df[key]
+            merged_df.rename(columns={"mid": currency_key}, inplace=True)
+            df[currency_key] = merged_df[currency_key]
 
         df = self.calculate_rates(df)
         return df
