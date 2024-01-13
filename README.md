@@ -21,19 +21,28 @@ git clone https://github.com/saworz/recruitment-task.git
 ```
 cd recruitment-task
 ```
-3. Run containers with bash script
+3. *(To run with docker)Run containers with bash script
 ```
 run_containers.sh
 ```
-4. *(Optional) Or run server and front separately
+4. *(To run via terminals) Or run server and front separately
 ```
 cd backend
 pip install -r requirements.txt
 python main.py
-cd ..
+```
+```
 cd frontend
 npm install
 npm start
 ```
 
-### Reflection
+## Reflection
+
+### 1. Tech stack
+Tasks requires both data manipulation and user interaction, so I've decided to
+create web app that runs with Flask server and React frontend.
+Server is pretty compact and contains only few endpoints so Django would be overkill for such
+a simple task so I've chosen Flask.
+I could stick with pure python and create visualization with Streamlit, but I've started learning
+MERN stack so I decided to show of some of my frontend skills with HTML, CSS, JS and React.
