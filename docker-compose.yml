@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web:
+    container_name: flask-server
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: python main.py
+    volumes:
+      - ./backend/:/backend
+    ports:
+      - 5000:5000
+
+  frontend:
+    container_name: react-client
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - 3000:3000
