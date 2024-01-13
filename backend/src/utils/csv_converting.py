@@ -7,17 +7,9 @@ from pydantic import BaseModel
 from typing import Dict, List
 
 
-class ExchangeRate(BaseModel):
-    no: str
-    effectiveDate: str
-    mid: float
-
-
-class CsvConverter(BaseModel):
-    """Handles saving data to .csv file"""
+class DfDateColumnGenerator(BaseModel):
     days_to_start: int
     days_to_end: int
-    exchange_rates: Dict[str, List[ExchangeRate]]
 
     def get_dates_column(self) -> pd.DataFrame:
         """Returns the dataframe with dates column"""
@@ -26,6 +18,18 @@ class CsvConverter(BaseModel):
 
         formatted_dates = [date.strftime("%Y-%m-%d") for date in dates_range]
         return pd.DataFrame({"Date": formatted_dates})
+
+
+class ExchangeRate(BaseModel):
+    no: str
+    effectiveDate: str
+    mid: float
+
+
+class ExchangeRatesDfBuilder(BaseModel):
+    days_to_start: int
+    days_to_end: int
+    exchange_rates: Dict[str, List[ExchangeRate]]
 
     @staticmethod
     def calculate_rates(df: pd.DataFrame) -> pd.DataFrame:
@@ -36,7 +40,10 @@ class CsvConverter(BaseModel):
 
     def create_rates_df(self) -> pd.DataFrame:
         """Returns dataframe ready to save as csv"""
-        df = self.get_dates_column()
+
+        date_generator = DfDateColumnGenerator(days_to_start=self.days_to_start,
+                                               days_to_end=self.days_to_end)
+        df = date_generator.get_dates_column()
 
         for currency_key, currency_data in self.exchange_rates.items():
             transformed_data = [rate.model_dump() for rate in currency_data]
@@ -48,20 +55,27 @@ class CsvConverter(BaseModel):
         df = self.calculate_rates(df)
         return df
 
-    def save_rates(self) -> None:
+
+class ExchangeRatesSaver(BaseModel):
+    """Handles saving data to .csv file"""
+    df: pd.DataFrame
+
+    class Config:
+        arbitrary_types_allowed = True
+
+    def save_rates_as_csv(self) -> None:
         """Saves dataframe to .csv"""
-        if len(self.exchange_rates) == 0:
+        if self.df.empty:
             logging.error("No exchange rates to save")
             return
 
-        df = self.create_rates_df()
         try:
             if os.path.exists(ALL_CURRENCY_CSV_FILENAME):
                 logging.debug(f"{ALL_CURRENCY_CSV_FILENAME} already exists, concatenating dataframes")
                 existing_df = pd.read_csv(ALL_CURRENCY_CSV_FILENAME)
-                df = pd.concat([existing_df, df]).drop_duplicates(subset=["Date"], keep="last")
+                self.df = pd.concat([existing_df, self.df]).drop_duplicates(subset=["Date"], keep="last")
 
-            df.to_csv(ALL_CURRENCY_CSV_FILENAME, index=False)
+            self.df.to_csv(ALL_CURRENCY_CSV_FILENAME, index=False)
             logging.info("Data saved to all_currency_data.csv successfully.")
         except Exception as e:
             logging.error(f"Error while saving data to all_currency_data.csv: {e}")

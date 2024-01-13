@@ -1,5 +1,5 @@
 from .nbp_fetching import NbpFetcher
-from .csv_converting import CsvConverter
+from .csv_converting import ExchangeRatesSaver, ExchangeRatesDfBuilder
 
 
 def fetch_nbp_api() -> None:
@@ -23,8 +23,12 @@ def fetch_nbp_api() -> None:
         if rates:
             fetched_rates[f"{currency.upper()}/PLN"] = rates
 
-    csv_converter = CsvConverter(days_to_start=fetch_config["days_to_start"],
-                                 days_to_end=fetch_config["days_to_end"],
-                                 exchange_rates=fetched_rates)
+    exchange_rates_converter = ExchangeRatesDfBuilder(exchange_rates=fetched_rates,
+                                                      days_to_start=fetch_config["days_to_start"],
+                                                      days_to_end=fetch_config["days_to_end"]
+                                                      )
 
-    csv_converter.save_rates()
+    df = exchange_rates_converter.create_rates_df()
+
+    exchange_rates_saver = ExchangeRatesSaver(df=df)
+    exchange_rates_saver.save_rates_as_csv()
