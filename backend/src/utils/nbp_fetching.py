@@ -2,14 +2,14 @@ import requests
 import logging
 from typing import List, Dict
 from datetime import datetime, timedelta
+from pydantic import BaseModel
 
 
-class NbpFetcher:
+class NbpFetcher(BaseModel):
     """Handles fetching data from nbp api"""
-    def __init__(self, fetch_config):
-        self.table_type = fetch_config["table_type"]
-        self.days_to_start = fetch_config["days_to_start"]
-        self.days_to_end = fetch_config["days_to_end"]
+    table_type: str
+    days_to_start: int
+    days_to_end: int
 
     @staticmethod
     def format_date(days_delta: int) -> str:

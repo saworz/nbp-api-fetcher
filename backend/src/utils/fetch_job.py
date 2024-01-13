@@ -11,7 +11,11 @@ def fetch_nbp_api() -> None:
         "currency_to_fetch": ["eur", "usd", "chf"]
     }
 
-    nbp_fetcher = NbpFetcher(fetch_config)
+    nbp_fetcher = NbpFetcher(table_type=fetch_config["table_type"],
+                             days_to_start=fetch_config["days_to_start"],
+                             days_to_end=fetch_config["days_to_end"]
+                             )
+
     fetched_rates = {}
 
     for currency in fetch_config["currency_to_fetch"]:
