@@ -21,7 +21,7 @@ git clone https://github.com/saworz/recruitment-task.git
 ```
 cd recruitment-task
 ```
-3. *(To run with docker) Run containers with bash script
+3. *(To run with docker) Run containers with bash
 ```
 run_containers.sh
 ```
