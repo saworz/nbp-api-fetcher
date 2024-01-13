@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask import request
 from flask_cors import cross_origin
 from ..utils import file_reader
+from ..constants import SELECTED_CURRENCY_CSV_FILENAME
 routes = Blueprint('routes', __name__)
 
 

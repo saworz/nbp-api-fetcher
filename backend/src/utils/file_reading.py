@@ -1,7 +1,7 @@
 import os.path
 import pandas as pd
 import logging
-from nbp_api import fetch_nbp_api
+from .fetch_job import fetch_nbp_api
 from typing import List, Dict
 
 

@@ -2,7 +2,7 @@ import logging
 
 from src import config, app
 from apscheduler.schedulers.background import BackgroundScheduler
-from nbp_api import fetch_nbp_api
+from src.utils.fetch_job import fetch_nbp_api
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
 
