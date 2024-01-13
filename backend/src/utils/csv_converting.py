@@ -7,11 +7,17 @@ from pydantic import BaseModel
 from typing import Dict, List
 
 
+class ExchangeRate(BaseModel):
+    no: str
+    effectiveDate: str
+    mid: float
+
+
 class CsvConverter(BaseModel):
     """Handles saving data to .csv file"""
     days_to_start: int
     days_to_end: int
-    exchange_rates: Dict[str, List[Dict]]
+    exchange_rates: Dict[str, List[ExchangeRate]]
 
     def get_dates_column(self) -> pd.DataFrame:
         """Returns the dataframe with dates column"""
@@ -32,8 +38,9 @@ class CsvConverter(BaseModel):
         """Returns dataframe ready to save as csv"""
         df = self.get_dates_column()
 
-        for currency_key, currency_value in self.exchange_rates.items():
-            rates_df = pd.DataFrame(currency_value)
+        for currency_key, currency_data in self.exchange_rates.items():
+            transformed_data = [rate.model_dump() for rate in currency_data]
+            rates_df = pd.DataFrame(transformed_data)
             merged_df = pd.merge(df, rates_df, how="left", left_on="Date", right_on="effectiveDate")
             merged_df.rename(columns={"mid": currency_key}, inplace=True)
             df[currency_key] = merged_df[currency_key]
