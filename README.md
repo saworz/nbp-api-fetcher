@@ -21,7 +21,7 @@ git clone https://github.com/saworz/recruitment-task.git
 ```
 cd recruitment-task
 ```
-3. *(To run with docker)Run containers with bash script
+3. *(To run with docker) Run containers with bash script
 ```
 run_containers.sh
 ```
@@ -57,22 +57,26 @@ because it makes handling column data and .csv converting easy.
 User can select currency pairs he wish to get exchange rates for by clicking checkbox on the right
 side of the currency pairs. Each currency pair div is created by mapping list of 
 available currencies fetched from the /api/get_currency_types/ endpoint.<br/>
+![data-selection-image](https://github.com/saworz/images/blob/main/nbp-fetcher-1.png?raw=true)
 
 ### 4. Saving data
 CsvConverted mentioned in paragraph 2 saves the data to .csv file named "all_currency_data.csv" file.
 By selecting data with checkboxes user can choose currency pairs exchange rates to save, either locally
 or to the server. <b>Download as .csv</b> button downloads .csv file with selected pairs and 
 <b>Save to server</b> saves the same file to the server.
+![data-saving-image](https://github.com/saworz/images/blob/main/nbp-fetcher-2.png?raw=true)
 
 ### 5. User interaction
 Success messages, errors and info are displayed for the user with react-toastify library.
 It makes creating popup messages pretty simple and it's easy to customize them.
+![user-interaction-image](https://github.com/saworz/images/blob/main/nbp-fetcher-3.png?raw=true)
 
 ### 6. Data analysis
 /api/analyze_data/ endpoint analyzes data for provided list of currency pairs. It also utilizes pandas libary
 to find average, median, min and max values easily. They are returned to the frontend and displayed
-as info popups in the upper-left side of the screen.
+as info popups in the upper-left side of the screen. Results are visible on the image above.
 
 ### 7. Cyclic fetching
 APScheduler takes care of fetching nbp exchange rates data once a day at 00:00. <b>fetch_nbp_api</b>
 function is used as a cyclic job and the scheduler is started by running main.py script.
+![cyclic-task-image](https://github.com/saworz/images/blob/main/nbp-fetcher-4.png?raw=true)
