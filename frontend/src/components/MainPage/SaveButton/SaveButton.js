@@ -46,7 +46,7 @@ export const SaveButton = ({ selectedCurrencies, disabled }) => {
           Min value: {calculatedData['min_value']}<br />
           Max value: {calculatedData['max_value']}<br />
         </div>,
-        { position: "top-left", autoClose: false});
+        { position: "top-left", autoClose: false, draggable: false});
     }
   };
 
