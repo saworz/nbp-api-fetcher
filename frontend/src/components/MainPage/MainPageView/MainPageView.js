@@ -1,5 +1,5 @@
 import "./MainPageView.css";
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import SelectCurrencyWindow from "../SelectCurrencyWindow";
 import SaveButton from "../SaveButton";
 import DownloadButton from "../DownloadButton";
