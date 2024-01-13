@@ -57,7 +57,9 @@ export const SelectCurrencyWindow = ({ onCurrenciesChange }) => {
           ))}
         </div>
       ) : (
-        <p>Loading currencies...</p>
+        <div className='error-message'>
+          Failed to load resources from the server 🥺
+        </div>
       )}
     </div>
   );

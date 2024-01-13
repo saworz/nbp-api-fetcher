@@ -35,3 +35,8 @@
   filter: brightness(80%);
   cursor: pointer;
 }
+
+.error-message {
+  display: flex;
+  margin: auto;
+}
