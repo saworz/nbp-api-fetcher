@@ -54,7 +54,7 @@ Fetched data is passed to CsvConverter class that saves it to .csv file. It util
 because it makes handling column data and .csv converting easy.
 
 ### 3. Data selection
-User can select currency pairs he wish to get exchange rates for by clicking checkbox on the right
+User can select currency pairs he wishes to get exchange rates for by clicking checkbox on the right
 side of the currency pairs. Each currency pair div is created by mapping list of 
 available currencies fetched from the /api/get_currency_types/ endpoint.<br/>
 ![data-selection-image](https://github.com/saworz/images/blob/main/nbp-fetcher-1.png?raw=true)
