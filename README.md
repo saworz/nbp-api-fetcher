@@ -42,19 +42,19 @@ npm start
 ### 1. Tech stack
 Task requires both data manipulation and user interaction, so I've decided to
 create web app that runs with Flask server and React frontend.
-Server is pretty compact and contains only few endpoints so Django would be overkill for such
+Server is pretty compact and contains only few endpoints and Django would be overkill for such
 a simple task so I've chosen Flask.
 I could stick with pure Python and create visualization with Streamlit, but I've started learning
 MERN stack so I decided to show of some of my frontend skills with HTML, CSS, JS and React.
 
 ### 2. Fetching currency data
-I have created NbpFetcher class that takes handles fetching data from nbp api. Request are made for
+I have created NbpFetcher class that handles fetching data from nbp api. Requests are made for
 specified list of currencies named with Currency Codes ISO 4217 convention.<br/>
 Fetched data is passed to CsvConverter class that saves it to .csv file. It utilizes pandas
 because it makes handling column data and .csv converting easy.
 
 ### 3. Data selection
-User can select currency pairs he wish to get exchange rates for by clickign checkbox on the right
+User can select currency pairs he wish to get exchange rates for by clicking checkbox on the right
 side of the currency pairs. Each currency pair div is created by mapping list of 
 available currencies fetched from the /api/get_currency_types/ endpoint.<br/>
 
@@ -74,4 +74,5 @@ to find average, median, min and max values easily. They are returned to the fro
 as info popups in the upper-left side of the screen.
 
 ### 7. Cyclic fetching
-APScheduler takes care of fetching nbp exchange rates data once a day at 00:00.
+APScheduler takes care of fetching nbp exchange rates data once a day at 00:00. <b>fetch_nbp_api</b>
+function is used as a cyclic job and the scheduler is started by running main.py script.
