@@ -111,7 +111,7 @@ def save_exchange_rates():
     """Endpoint for saving exchange rates for specified currency pairs"""
     if request.is_json:
         try:
-            currency_pairs = request.get_json()['currency_pairs']
+            currency_pairs = request.get_json()["currency_pairs"]
             df = file_reader.get_plain_df()
 
             filtered_df = df[currency_pairs]
