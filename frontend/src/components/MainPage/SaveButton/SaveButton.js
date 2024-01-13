@@ -1,6 +1,7 @@
 import "./SaveButton.css"
 import postRatesToSave from "../../../api/PostRatesToSave";
-import { toast } from "react-toastify";
+import fetchAnalyzedData from "../../../api/FetchAnalyzedData";
+import {toast} from "react-toastify";
 
 export const SaveButton = ({ selectedCurrencies, disabled }) => {
 
@@ -23,8 +24,30 @@ export const SaveButton = ({ selectedCurrencies, disabled }) => {
     }
   };
 
+  const fetchData = async () => {
+    try {
+      return await fetchAnalyzedData(selectedCurrencies);
+    } catch (error) {
+      console.error("Error fetching analyzed data:", error)
+    }
+  };
+
   const handleSavingClick = async () => {
     await postData();
+    const analyzedData = await fetchData();
+
+    for (const currencyPair in analyzedData) {
+      const calculatedData = analyzedData[currencyPair]
+
+      toast.info(
+        <div><b>{currencyPair}</b> analyzed data<br />
+          Average value: {calculatedData['average_value']}<br />
+          Median value: {calculatedData['median_value']}<br />
+          Min value: {calculatedData['min_value']}<br />
+          Max value: {calculatedData['max_value']}<br />
+        </div>,
+        { position: "top-left", autoClose: false});
+    }
   };
 
   return (
