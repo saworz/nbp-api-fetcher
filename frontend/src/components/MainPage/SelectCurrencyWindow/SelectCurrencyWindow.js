@@ -16,7 +16,7 @@ export const SelectCurrencyWindow = ({ onCurrenciesChange }) => {
 
   const [selectedCurrencies, setSelectedCurrencies] = useState([]);
 
-  useEffect((onCurrenciesChange) => {
+  useEffect(() => {
     onCurrenciesChange(selectedCurrencies);
   }, [selectedCurrencies]);
 

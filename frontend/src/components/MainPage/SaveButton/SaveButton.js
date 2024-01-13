@@ -18,7 +18,7 @@ export const SaveButton = ({ selectedCurrencies, onSuccessfulSave, disabled }) =
     }
   };
 
-  useEffect((onSuccessfulSave) => {
+  useEffect(() => {
     if (saveSuccess) {
       onSuccessfulSave()
       setTimeout(() => {
