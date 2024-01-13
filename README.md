@@ -72,7 +72,7 @@ It makes creating popup messages pretty simple and it's easy to customize them.
 ![user-interaction-image](https://github.com/saworz/images/blob/main/nbp-fetcher-3.png?raw=true)
 
 ### 6. Data analysis
-/api/analyze_data/ endpoint analyzes data for provided list of currency pairs. It also utilizes pandas libary
+/api/analyze_data/ endpoint analyzes data for provided list of currency pairs. It also utilizes pandas library
 to find average, median, min and max values easily. They are returned to the frontend and displayed
 as info popups in the upper-left side of the screen. Results are visible on the image above.
 
