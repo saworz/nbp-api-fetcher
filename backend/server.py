@@ -13,11 +13,13 @@ CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 
 class FileReader:
+    """Handles reading .csv file with exchange rates"""
     def __init__(self, file_path: str):
         self.file_path = file_path
         self.exchange_rates_df = None
 
     def read_file(self) -> None:
+        """Reads .csv file with exchange rates and saves it as dataframe"""
         if not os.path.exists(self.file_path):
             fetch_nbp_api()
 
@@ -31,15 +33,18 @@ class FileReader:
             return None
 
     def get_plain_df(self) -> pd.DataFrame:
+        """Returns plain dataframe with exchange rates"""
         self.read_file()
         return self.exchange_rates_df
 
     def get_exchange_rates(self, requested_currencies: List[str]) -> Dict | None:
+        """Returns exchange rates as a dictionary"""
         self.read_file()
         filtered_df = self.exchange_rates_df.filter(requested_currencies)
         return filtered_df.to_dict()
 
     def get_currencies_list(self) -> List[str]:
+        """Returns list of currencies"""
         self.read_file()
         return self.exchange_rates_df.columns.tolist()
 
@@ -49,6 +54,7 @@ file_reader = FileReader(ALL_CURRENCY_CSV_FILENAME)
 
 @app.route("/api/get_currency_types/", methods=["GET"])
 def get_currency_types():
+    """Endpoint for getting list of currency types available"""
     currencies_list = file_reader.get_currencies_list()
     if not currencies_list:
         return {"message": "Error loading exchange rates"}, 500
@@ -58,6 +64,7 @@ def get_currency_types():
 
 @app.route("/api/get_exchange_rates/", methods=["GET"])
 def get_exchange_rates():
+    """Endpoint for getting exchange rates for currencies provided as url parameters"""
     requested_currencies = request.args.getlist("currencies")
 
     if not requested_currencies:
@@ -72,6 +79,7 @@ def get_exchange_rates():
 
 @app.route("/api/analyze_data/", methods=["GET"])
 def analyze_data():
+    """Endpoint for getting analyzed data for currencies provided as url parameters"""
     requested_currencies = request.args.getlist("currencies")
 
     if not requested_currencies:
@@ -100,6 +108,7 @@ def analyze_data():
 @app.route("/api/save_exchange_rates/", methods=["POST", "OPTIONS"])
 @cross_origin()
 def save_exchange_rates():
+    """Endpoint for saving exchange rates for specified currency pairs"""
     if request.is_json:
         try:
             currency_pairs = request.get_json()['currency_pairs']

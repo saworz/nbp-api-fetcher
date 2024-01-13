@@ -11,6 +11,7 @@ ALL_CURRENCY_CSV_FILENAME = "all_currency_data.csv"
 
 
 class NbpFetcher:
+    """Handles fetching data from nbp api"""
     def __init__(self, table_type, days_to_start, days_to_end):
         self.table_type = table_type
         self.days_to_start = days_to_start
@@ -18,10 +19,12 @@ class NbpFetcher:
 
     @staticmethod
     def format_date(days_delta: int) -> str:
+        """Return date days_delta prior to today in format YYYY-MM-DD"""
         date = datetime.now() - timedelta(days=days_delta)
         return date.strftime("%Y-%m-%d")
 
     def fetch(self, currency_name: str) -> List[Dict] | None:
+        """Fetches data from nbp api and returns it as a list of dicts"""
         start_date = self.format_date(self.days_to_start)
         end_date = self.format_date(self.days_to_end)
         api_url = f"https://api.nbp.pl/api/exchangerates/rates/{self.table_type}/{currency_name}/{start_date}/{end_date}/"
@@ -43,11 +46,13 @@ class NbpFetcher:
 
 
 class CsvConverter(NbpFetcher):
+    """Handles saving data to .csv file"""
     def __init__(self, exchange_rates, fetcher_instance):
         super().__init__(fetcher_instance.table_type, fetcher_instance.days_to_start, fetcher_instance.days_to_end)
         self.exchange_rates = exchange_rates
 
     def get_dates_column(self) -> pd.DataFrame:
+        """Returns the dataframe with dates column"""
         dates_range = [datetime.now() - timedelta(days=i) for i in
                        range(self.days_to_start - 1, self.days_to_end - 1, -1)]
 
@@ -56,11 +61,13 @@ class CsvConverter(NbpFetcher):
 
     @staticmethod
     def calculate_rates(df: pd.DataFrame) -> pd.DataFrame:
+        """Calculates new rates using already existing ones"""
         df["EUR/USD"] = (df["EUR/PLN"] / df["USD/PLN"]).round(4)
         df["CHF/USD"] = (df["CHF/PLN"] / df["USD/PLN"]).round(4)
         return df
 
     def create_rates_df(self) -> pd.DataFrame:
+        """Returns dataframe ready to save as csv"""
         df = self.get_dates_column()
 
         for key, value in self.exchange_rates.items():
@@ -73,6 +80,7 @@ class CsvConverter(NbpFetcher):
         return df
 
     def save_rates(self) -> None:
+        """Saves dataframe to .csv"""
         if len(self.exchange_rates) == 0:
             logging.error("No exchange rates to save")
             return
@@ -91,6 +99,7 @@ class CsvConverter(NbpFetcher):
 
 
 def fetch_nbp_api() -> None:
+    """Executes fetching and saving data. Used as a cyclic task for scheduler"""
     logging.info("Starting currency data fetching job")
     fetcher = NbpFetcher(table_type="a", days_to_start=90, days_to_end=0)
     currency_to_fetch = ["eur", "usd", "chf"]

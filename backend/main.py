@@ -11,6 +11,7 @@ job = scheduler.add_job(fetch_nbp_api, trigger="cron",
                         day="*", hour="00", minute="00", max_instances=1)
 
 if __name__ == "__main__":
+    """Main execution script"""
     fetch_nbp_api()
     scheduler.start()
     app.run(debug=True, host="0.0.0.0", port=5000)
