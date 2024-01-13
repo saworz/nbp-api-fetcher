@@ -3,7 +3,8 @@ import fetchCurrencyTypes from "../../../api/FetchCurrencyTypes";
 import { useEffect, useState } from "react";
 import CurrenciesRow from "../CurrenciesRow";
 
-export const SelectCurrencyWindow = ({ onCurrenciesChange }) => {
+export const SelectCurrencyWindow = ({ onCurrenciesChange, selectedCurrencies }) => {
+
   const [currencies, setCurrencies] = useState();
   useEffect(() => {
     const fetchData = async () => {
@@ -14,24 +15,18 @@ export const SelectCurrencyWindow = ({ onCurrenciesChange }) => {
     fetchData();
   }, []);
 
-  const [selectedCurrencies, setSelectedCurrencies] = useState([]);
-
-  useEffect(() => {
-    onCurrenciesChange(selectedCurrencies);
-    // eslint-disable-next-line
-  }, [selectedCurrencies]);
 
   const handleCheckboxChange = (currencyPair) => {
-    const isSelected = selectedCurrencies.some((selectedPair) => (
-      selectedPair === currencyPair
-    ));
+    const isSelected = selectedCurrencies.some(
+      (selectedPair) => selectedPair === currencyPair
+    );
 
     if (isSelected) {
-      setSelectedCurrencies((prevSelected) => (
+      onCurrenciesChange((prevSelected) =>
         prevSelected.filter((selectedPair) => selectedPair !== currencyPair)
-      ));
+      );
     } else {
-      setSelectedCurrencies((prevSelected) => [...prevSelected, currencyPair]);
+      onCurrenciesChange((prevSelected) => [...prevSelected, currencyPair]);
     }
   };
 

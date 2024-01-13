@@ -15,7 +15,9 @@ const MainPageView = () => {
   return (
     <div className="content-div">
       <h2>Choose exchange rates to save:</h2>
-      <SelectCurrencyWindow onCurrenciesChange={handleSelectionChange}/>
+      <SelectCurrencyWindow
+        onCurrenciesChange={handleSelectionChange}
+        selectedCurrencies={selectedCurrencies}/>
 
       <div className="buttons-field">
         <div className="single-button">
