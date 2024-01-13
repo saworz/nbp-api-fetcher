@@ -21,9 +21,9 @@ git clone https://github.com/saworz/recruitment-task.git
 ```
 cd recruitment-task
 ```
-3. *(To run with docker) Run containers with bash
+3. *(To run with docker) Run docker compose
 ```
-run_containers.sh
+docker compose up --build
 ```
 4. *(To run via terminals) Or run server and front separately
 ```
