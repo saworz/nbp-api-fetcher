@@ -14,4 +14,4 @@ if __name__ == "__main__":
     """Main execution script"""
     fetch_nbp_api()
     scheduler.start()
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, use_reloader=False, host="0.0.0.0", port=5000)
