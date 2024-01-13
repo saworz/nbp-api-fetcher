@@ -4,12 +4,10 @@ import logging
 
 from nbp_api import fetch_nbp_api, ALL_CURRENCY_CSV_FILENAME
 from typing import List, Dict
-from flask import Flask, request
-from flask_cors import CORS, cross_origin
+from flask import request
+from flask_cors import cross_origin
 
 SELECTED_CURRENCY_CSV_FILENAME = "selected_currency_data.csv"
-app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 
 class FileReader:

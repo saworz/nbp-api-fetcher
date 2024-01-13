@@ -1,6 +1,6 @@
 import logging
 
-from server import app
+from src import config, app
 from apscheduler.schedulers.background import BackgroundScheduler
 from nbp_api import fetch_nbp_api
 
@@ -14,4 +14,9 @@ if __name__ == "__main__":
     """Main execution script"""
     fetch_nbp_api()
     scheduler.start()
-    app.run(debug=True, use_reloader=False, host="0.0.0.0", port=5000)
+    app.run(
+        debug=config.DEBUG,
+        use_reloader=config.USE_RELOADER,
+        host=config.HOST,
+        port=config.PORT
+    )

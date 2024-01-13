@@ -6,7 +6,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    command: python main.py
+    command: python app.py
     volumes:
       - ./backend/:/backend
     ports:
