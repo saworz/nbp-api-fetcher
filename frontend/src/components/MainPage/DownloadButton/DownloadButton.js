@@ -24,7 +24,7 @@ export const DownloadButton = ({ selectedCurrencies, disabled }) => {
       const blob = new Blob([csvContent], { type: "text/csv" });
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
-      link.download = "exchangeRates.csv";
+      link.download = "selected_currency_data.csv";
 
       document.body.appendChild(link);
       link.click();
