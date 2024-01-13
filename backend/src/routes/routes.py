@@ -1,15 +1,15 @@
 from flask import Blueprint
 from flask import request
 from flask_cors import cross_origin
-from ..utils import file_reader
-from ..constants import SELECTED_CURRENCY_CSV_FILENAME
+from ..utils import exchange_rates_filter, currencies_reader, csv_reader
+from ..constants import SELECTED_CURRENCY_CSV_FILENAME, ALL_CURRENCY_CSV_FILENAME
 routes = Blueprint('routes', __name__)
 
 
 @routes.route("/api/get_currency_types/", methods=["GET"])
 def get_currency_types():
     """Endpoint for getting list of currency types available"""
-    currencies_list = file_reader.get_currencies_list()
+    currencies_list = currencies_reader.get_currencies_list()
     if not currencies_list:
         return {"message": "Error loading exchange rates"}, 500
 
@@ -24,7 +24,7 @@ def get_exchange_rates():
     if not requested_currencies:
         return {"message": "No currencies to query received"}, 404
 
-    exchange_rates = file_reader.get_exchange_rates(requested_currencies)
+    exchange_rates = exchange_rates_filter.get_exchange_rates(requested_currencies=requested_currencies)
     if not exchange_rates:
         return {"message": "Error loading exchange rates"}, 500
 
@@ -39,7 +39,7 @@ def analyze_data():
     if not requested_currencies:
         return {"message": "No currencies to query received"}, 404
 
-    df = file_reader.get_plain_df()
+    df = csv_reader.read_file(file_path=ALL_CURRENCY_CSV_FILENAME)
 
     if df is None:
         return {"message": "Error loading exchange rates"}, 500
@@ -66,7 +66,7 @@ def save_exchange_rates():
     if request.is_json:
         try:
             currency_pairs = request.get_json()["currency_pairs"]
-            df = file_reader.get_plain_df()
+            df = csv_reader.read_file(file_path=ALL_CURRENCY_CSV_FILENAME)
 
             filtered_df = df[currency_pairs]
             filtered_df.to_csv(SELECTED_CURRENCY_CSV_FILENAME)
