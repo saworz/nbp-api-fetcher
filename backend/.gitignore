@@ -1,6 +1,9 @@
 # C extensions
 *.so
 
+#pycache
+*/__pycache__/*
+
 # Distribution / packaging
 bin/
 build/

@@ -2,6 +2,9 @@
 .venv/
 .idea/
 
+#pycache
+*/__pycache__/*
+
 #csv files
 all_currency_data.csv
 selected_currency_data.csv
