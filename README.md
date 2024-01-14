@@ -76,6 +76,7 @@ It makes creating popup messages pretty simple and it's easy to customize them.
 Errors occurring while fetching data or communicating with backend are displayed with react-toastify.
 They appear in the upper-right corner and provide simple error description. More precise error messages are displayed
 with Python's logging module and in browser's console.
+Data types are validated using Pydantic and Flask-Pydantic for api requests and responses
 ![error-handling-image](https://github.com/saworz/images/blob/main/nbp-fetcher-5.png?raw=true)
 
 
