@@ -1,19 +1,13 @@
 from flask import Blueprint
-from flask import request
 from flask_cors import cross_origin
 from ..utils.read_csv import read_file
 from ..utils.df_convert import get_rates_dict, get_currencies_list
 from ..constants import SELECTED_CURRENCY_CSV_FILEPATH, ALL_CURRENCY_CSV_FILEPATH
-from pydantic import BaseModel
 from flask_pydantic import validate
-from typing import List, Dict
+from .request_validators import GetExchangeRatesRequest, SaveExchangeRatesRequest, AnalyzeDataRequest
+from .response_validators import AnalyzeDataResponse, CurrencyTypesResponse, GetExchangeRatesResponse
 
 routes = Blueprint('routes', __name__)
-
-
-class CurrencyTypesResponse(BaseModel):
-    currencies_list: List[str]
-    message: str
 
 
 @routes.route("/api/get_currency_types/", methods=["GET"])
@@ -34,16 +28,11 @@ def get_currency_types():
     ), 200
 
 
-class GetExchangeRatesResponse(BaseModel):
-    exchange_rates: Dict[str, Dict[str, float | None]]
-    message: str
-
-
 @routes.route("/api/get_exchange_rates/", methods=["GET"])
 @validate()
-def get_exchange_rates():
+def get_exchange_rates(query: GetExchangeRatesRequest):
     """Endpoint for getting exchange rates for currencies provided as url parameters"""
-    requested_currencies = request.args.getlist("currencies")
+    requested_currencies = query.currencies
 
     if not requested_currencies:
         return {"message": "No currencies to query received"}, 404
@@ -61,16 +50,11 @@ def get_exchange_rates():
         message="CSV file queried successfully"), 200
 
 
-class AnalyzeDataResponse(BaseModel):
-    analyzed_data: Dict[str, Dict[str, float]]
-    message: str
-
-
 @routes.route("/api/analyze_data/", methods=["GET"])
 @validate()
-def analyze_data():
+def analyze_data(query: AnalyzeDataRequest):
     """Endpoint for getting analyzed data for currencies provided as url parameters"""
-    requested_currencies = request.args.getlist("currencies")
+    requested_currencies = query.currencies
 
     if not requested_currencies:
         return {"message": "No currencies to query received"}, 404
@@ -99,23 +83,25 @@ def analyze_data():
 
 @routes.route("/api/save_exchange_rates/", methods=["POST", "OPTIONS"])
 @cross_origin()
-def save_exchange_rates():
+@validate()
+def save_exchange_rates(query: SaveExchangeRatesRequest):
     """Endpoint for saving exchange rates for specified currency pairs"""
-    if request.is_json:
-        try:
-            currency_pairs = request.get_json()["currency_pairs"]
+    requested_currencies = query.currencies
 
-            df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
+    if not requested_currencies:
+        return {"message": "No currencies to query received"}, 404
 
-            if df is None:
-                return {"message": "Error loading exchange rates"}, 500
+    try:
+        df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
-            filtered_df = df[currency_pairs]
-            filtered_df.to_csv(SELECTED_CURRENCY_CSV_FILEPATH)
+        if df is None:
+            return {"message": "Error loading exchange rates"}, 500
 
-            return {"message": f"Exchange rates for {currency_pairs} saved "
-                               f"successfully to selected_currency_data.csv"}, 200
+        filtered_df = df[requested_currencies]
+        filtered_df.to_csv(SELECTED_CURRENCY_CSV_FILEPATH)
 
-        except Exception as e:
-            return {"message": f"Error while saving exchange rates: {e}"}, 500
-    return {"message": "Incorrect request"}, 400
+        return {"message": f"Exchange rates for {requested_currencies} saved "
+                           f"successfully to selected_currency_data.csv"}, 200
+
+    except Exception as e:
+        return {"message": f"Error while saving exchange rates: {e}"}, 500
