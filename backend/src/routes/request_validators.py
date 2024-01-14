@@ -14,4 +14,4 @@ class AnalyzeDataRequest(BaseModel):
 
 class SaveExchangeRatesRequest(BaseModel):
     """Request validator class"""
-    currencies: List[str]
+    currency_pairs: List[str]

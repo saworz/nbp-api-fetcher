@@ -84,9 +84,9 @@ def analyze_data(query: AnalyzeDataRequest):
 @routes.route("/api/save_exchange_rates/", methods=["POST", "OPTIONS"])
 @cross_origin()
 @validate()
-def save_exchange_rates(query: SaveExchangeRatesRequest):
+def save_exchange_rates(body: SaveExchangeRatesRequest):
     """Endpoint for saving exchange rates for specified currency pairs"""
-    requested_currencies = query.currencies
+    requested_currencies = body.currency_pairs
 
     if not requested_currencies:
         return {"message": "No currencies to query received"}, 404
