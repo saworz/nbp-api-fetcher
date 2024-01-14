@@ -2,6 +2,7 @@ from typing import List
 
 
 class FetchConfig:
+    """Config for data fetching"""
     def __init__(self):
         self.table_type: str = "a"
         self.days_to_start: int = 90
@@ -10,6 +11,7 @@ class FetchConfig:
 
 
 class ProductionConfig:
+    """Flask production config"""
     def __init__(self):
         self.DEBUG: bool = False
         self.USE_RELOADER: bool = False
@@ -18,6 +20,7 @@ class ProductionConfig:
 
 
 class DevConfig:
+    """Flask dev config"""
     def __init__(self):
         self.DEBUG: bool = True
         self.USE_RELOADER: bool = False
@@ -26,6 +29,7 @@ class DevConfig:
 
 
 class Config:
+    """Flask config"""
     def __init__(self):
         self.dev_config: DevConfig = DevConfig()
         self.production_config: ProductionConfig = ProductionConfig()
