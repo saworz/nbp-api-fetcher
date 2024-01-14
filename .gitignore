@@ -2,6 +2,8 @@
 .venv/
 .idea/
 
+#data
+/exchange_rates_data
 #pycache
 */__pycache__/*
 

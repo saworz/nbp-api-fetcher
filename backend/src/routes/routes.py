@@ -3,7 +3,7 @@ from flask import request
 from flask_cors import cross_origin
 from ..utils.read_csv import read_file
 from ..utils.df_convert import get_rates_dict, get_currencies_list
-from ..constants import SELECTED_CURRENCY_CSV_FILENAME, ALL_CURRENCY_CSV_FILENAME
+from ..constants import SELECTED_CURRENCY_CSV_FILEPATH, ALL_CURRENCY_CSV_FILEPATH
 routes = Blueprint('routes', __name__)
 
 
@@ -11,7 +11,7 @@ routes = Blueprint('routes', __name__)
 def get_currency_types():
     """Endpoint for getting list of currency types available"""
 
-    df = read_file(file_path=ALL_CURRENCY_CSV_FILENAME)
+    df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
     if df is None:
         return {"message": "Error loading exchange rates"}, 500
@@ -28,7 +28,7 @@ def get_exchange_rates():
     if not requested_currencies:
         return {"message": "No currencies to query received"}, 404
 
-    df = read_file(file_path=ALL_CURRENCY_CSV_FILENAME)
+    df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
     if df is None:
         return {"message": "Error loading exchange rates"}, 500
@@ -47,7 +47,7 @@ def analyze_data():
     if not requested_currencies:
         return {"message": "No currencies to query received"}, 404
 
-    df = read_file(file_path=ALL_CURRENCY_CSV_FILENAME)
+    df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
     if df is None:
         return {"message": "Error loading exchange rates"}, 500
@@ -75,13 +75,13 @@ def save_exchange_rates():
         try:
             currency_pairs = request.get_json()["currency_pairs"]
 
-            df = read_file(file_path=ALL_CURRENCY_CSV_FILENAME)
+            df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
             if df is None:
                 return {"message": "Error loading exchange rates"}, 500
 
             filtered_df = df[currency_pairs]
-            filtered_df.to_csv(SELECTED_CURRENCY_CSV_FILENAME)
+            filtered_df.to_csv(SELECTED_CURRENCY_CSV_FILEPATH)
 
             return {"message": f"Exchange rates for {currency_pairs} saved "
                                f"successfully to selected_currency_data.csv"}, 200

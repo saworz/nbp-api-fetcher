@@ -1,7 +1,7 @@
 from .fetch_nbp import NbpFetcher
 from ..utils.save_df import save_df_as_csv
 from ..utils.build_df import create_exchange_rates_df, calculate_rates, create_dates_column
-from ..constants import ALL_CURRENCY_CSV_FILENAME
+from ..constants import ALL_CURRENCY_CSV_FILEPATH
 from ..config import FetchConfig
 
 fetch_config = FetchConfig()
@@ -19,4 +19,4 @@ def fetch_nbp_api() -> None:
     df = calculate_rates(df=df)
 
     save_df_as_csv(df=df,
-                   file_path=ALL_CURRENCY_CSV_FILENAME)
+                   file_path=ALL_CURRENCY_CSV_FILEPATH)
