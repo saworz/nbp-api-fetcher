@@ -4,10 +4,20 @@ from flask_cors import cross_origin
 from ..utils.read_csv import read_file
 from ..utils.df_convert import get_rates_dict, get_currencies_list
 from ..constants import SELECTED_CURRENCY_CSV_FILEPATH, ALL_CURRENCY_CSV_FILEPATH
+from pydantic import BaseModel
+from flask_pydantic import validate
+from typing import List, Dict
+
 routes = Blueprint('routes', __name__)
 
 
+class CurrencyTypesResponse(BaseModel):
+    currencies_list: List[str]
+    message: str
+
+
 @routes.route("/api/get_currency_types/", methods=["GET"])
+@validate()
 def get_currency_types():
     """Endpoint for getting list of currency types available"""
 
@@ -17,10 +27,20 @@ def get_currency_types():
         return {"message": "Error loading exchange rates"}, 500
 
     currencies_list = get_currencies_list(df=df)
-    return {"message": "CSV file read successfully", "currencies_list": currencies_list}, 200
+
+    return CurrencyTypesResponse(
+        currencies_list=currencies_list,
+        message="CSV file read successfully"
+    ), 200
+
+
+class GetExchangeRatesResponse(BaseModel):
+    exchange_rates: Dict[str, Dict[str, float | None]]
+    message: str
 
 
 @routes.route("/api/get_exchange_rates/", methods=["GET"])
+@validate()
 def get_exchange_rates():
     """Endpoint for getting exchange rates for currencies provided as url parameters"""
     requested_currencies = request.args.getlist("currencies")
@@ -36,10 +56,18 @@ def get_exchange_rates():
     exchange_rates = get_rates_dict(df=df,
                                     requested_currencies=requested_currencies)
 
-    return {"message": "CSV file queried successfully", "exchange_rates": exchange_rates}, 200
+    return GetExchangeRatesResponse(
+        exchange_rates=exchange_rates,
+        message="CSV file queried successfully"), 200
+
+
+class AnalyzeDataResponse(BaseModel):
+    analyzed_data: Dict[str, Dict[str, float]]
+    message: str
 
 
 @routes.route("/api/analyze_data/", methods=["GET"])
+@validate()
 def analyze_data():
     """Endpoint for getting analyzed data for currencies provided as url parameters"""
     requested_currencies = request.args.getlist("currencies")
@@ -64,7 +92,9 @@ def analyze_data():
         }
         analyzed_data[column_name] = data_dict
 
-    return {"message": "Data analyzed successfully", "analyzed_data": analyzed_data}, 200
+    return AnalyzeDataResponse(
+        analyzed_data=analyzed_data,
+        message="Data analyzed successfully"), 200
 
 
 @routes.route("/api/save_exchange_rates/", methods=["POST", "OPTIONS"])
