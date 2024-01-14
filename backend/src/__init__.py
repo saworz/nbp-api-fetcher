@@ -17,5 +17,4 @@ scheduler = BackgroundScheduler()
 job = scheduler.add_job(fetch_nbp_api, trigger="cron",
                         day="*", hour="00", minute="00", max_instances=1)
 
-
 app.register_blueprint(routes)

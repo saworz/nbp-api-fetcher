@@ -10,17 +10,8 @@ fetch_config = FetchConfig()
 def fetch_nbp_api() -> None:
     """Executes fetching and saving data. Used as a cyclic task for scheduler"""
 
-    nbp_fetcher = NbpFetcher(table_type=fetch_config.table_type,
-                             days_to_start=fetch_config.days_to_start,
-                             days_to_end=fetch_config.days_to_end
-                             )
-
-    fetched_rates = {}
-
-    for currency in fetch_config.currency_to_fetch:
-        rates = nbp_fetcher.fetch(currency)
-        if rates:
-            fetched_rates[f"{currency.upper()}/PLN"] = rates
+    nbp_fetcher = NbpFetcher(fetch_config=fetch_config)
+    fetched_rates = nbp_fetcher.get_fetched_rates()
 
     df = create_dates_column(days_to_start=fetch_config.days_to_start,
                              days_to_end=fetch_config.days_to_end)

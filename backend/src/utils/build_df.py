@@ -1,6 +1,5 @@
 import pandas as pd
 from datetime import datetime, timedelta
-from pydantic import BaseModel
 from typing import Dict, List
 
 
