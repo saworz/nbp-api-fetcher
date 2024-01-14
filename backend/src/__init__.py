@@ -1,9 +1,9 @@
 import logging
 from flask import Flask
 from flask_cors import CORS
-from .config.config import Config
+from .config import Config, FetchConfig
 from apscheduler.schedulers.background import BackgroundScheduler
-from .utils.fetch_job import fetch_nbp_api
+from .services.cyclic_job import fetch_nbp_api
 from .routes.routes import routes
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")

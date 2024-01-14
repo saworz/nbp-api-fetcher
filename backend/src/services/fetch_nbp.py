@@ -1,8 +1,8 @@
 import requests
 import logging
 from typing import List, Dict
-from datetime import datetime, timedelta
 from pydantic import BaseModel
+from ..utils.format_date import format_date
 
 
 class NbpFetcher(BaseModel):
@@ -11,16 +11,10 @@ class NbpFetcher(BaseModel):
     days_to_start: int
     days_to_end: int
 
-    @staticmethod
-    def format_date(days_delta: int) -> str:
-        """Return date days_delta prior to today in format YYYY-MM-DD"""
-        date = datetime.now() - timedelta(days=days_delta)
-        return date.strftime("%Y-%m-%d")
-
     def fetch(self, currency_name: str) -> List[Dict] | None:
         """Fetches data from nbp api and returns it as a list of dicts"""
-        start_date = self.format_date(self.days_to_start)
-        end_date = self.format_date(self.days_to_end)
+        start_date = format_date(self.days_to_start)
+        end_date = format_date(self.days_to_end)
         api_url = f"https://api.nbp.pl/api/exchangerates/rates/{self.table_type}/{currency_name}/{start_date}/{end_date}/"
 
         try:
