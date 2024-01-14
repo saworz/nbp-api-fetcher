@@ -2,7 +2,7 @@
 *.so
 
 #pycache
-*/__pycache__/*
+__pycache__
 
 # Distribution / packaging
 bin/
