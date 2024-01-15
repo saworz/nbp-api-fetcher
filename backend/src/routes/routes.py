@@ -2,7 +2,7 @@ import os
 from flask import Blueprint
 from flask_cors import cross_origin
 from backend.src.utils.read_csv_timeseries import read_csv_as_df
-from backend.src.utils.df_convert import get_rates_dict, get_currencies_list
+from backend.src.utils.get_df_data import get_filtered_df_as_dict, get_df_columns_names
 from backend.src.constants import SELECTED_CURRENCY_CSV_FILEPATH, ALL_CURRENCY_CSV_FILEPATH
 from flask_pydantic import validate
 from .request_validators import GetExchangeRatesRequest, SaveExchangeRatesRequest, AnalyzeDataRequest
@@ -25,7 +25,7 @@ def get_currency_types():
     if df is None:
         return {"message": "Error loading exchange rates"}, 500
 
-    currencies_list = get_currencies_list(df=df)
+    currencies_list = get_df_columns_names(df=df)
 
     return CurrencyTypesResponse(
         currencies_list=currencies_list,
@@ -50,7 +50,7 @@ def get_exchange_rates(query: GetExchangeRatesRequest):
     if df is None:
         return {"message": "Error loading exchange rates"}, 500
 
-    exchange_rates = get_rates_dict(df=df,
+    exchange_rates = get_filtered_df_as_dict(df=df,
                                     requested_currencies=requested_currencies)
 
     return GetExchangeRatesResponse(
