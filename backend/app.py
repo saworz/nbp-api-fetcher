@@ -1,10 +1,8 @@
 from src import config, app, scheduler
-from src.services.cyclic_job import fetch_nbp_api
 
 if __name__ == "__main__":
-    """Main execution script"""
 
-    fetch_nbp_api()
+    """Main execution script"""
     scheduler.start()
     app.run(
         debug=config.DEBUG,
