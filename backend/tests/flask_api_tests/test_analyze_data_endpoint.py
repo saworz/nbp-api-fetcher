@@ -1,5 +1,6 @@
 import pytest
-from . import client, generate_fake_data
+from . import client
+from .test_api_mock_data import generate_fake_data
 
 
 @pytest.fixture

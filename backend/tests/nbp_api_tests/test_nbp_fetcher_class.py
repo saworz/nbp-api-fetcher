@@ -1,6 +1,6 @@
 import pytest
-from ...services.cyclic_job import fetch_config
-from ...services.fetch_nbp import NbpFetcher
+from backend.src.services.cyclic_job import fetch_config
+from backend.src.services.fetch_nbp import NbpFetcher
 
 
 @pytest.fixture

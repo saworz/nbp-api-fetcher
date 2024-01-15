@@ -1,13 +1,6 @@
-import pytest
 import pandas as pd
 import os
-from ...constants import ALL_CURRENCY_CSV_FILEPATH
-from ... import app
-
-
-@pytest.fixture
-def client():
-    return app.test_client()
+from backend.src.constants import ALL_CURRENCY_CSV_FILEPATH
 
 
 def generate_fake_data():
