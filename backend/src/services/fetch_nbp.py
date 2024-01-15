@@ -3,6 +3,7 @@ import logging
 from typing import List, Dict
 from backend.src import FetchConfig
 from backend.src.utils.format_date import format_date
+from backend.src.constants import NBP_API_URL
 
 
 class NbpFetcher:
@@ -18,7 +19,9 @@ class NbpFetcher:
         """Fetches data from nbp api and returns it as a list of dicts"""
         start_date = format_date(self.days_to_start)
         end_date = format_date(self.days_to_end)
-        api_url = f"https://api.nbp.pl/api/exchangerates/rates/{self.table_type}/{currency_name}/{start_date}/{end_date}/"
+
+        api_parameters = f"{self.table_type}/{currency_name}/{start_date}/{end_date}/"
+        api_url = NBP_API_URL + api_parameters
 
         response = requests.get(api_url)
         response.raise_for_status()
