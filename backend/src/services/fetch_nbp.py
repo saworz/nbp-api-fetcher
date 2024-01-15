@@ -1,9 +1,9 @@
 import requests
 import logging
 from typing import List, Dict
-from src import FetchConfig
-from src.utils.format_date import format_date
-from src.constants import NBP_API_URL
+from backend.src import FetchConfig
+from backend.src.utils.format_date import format_date
+from backend.src.constants import NBP_API_URL
 
 
 class NbpFetcher:
