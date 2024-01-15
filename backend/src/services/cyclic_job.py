@@ -6,9 +6,10 @@ from backend.src.constants import ALL_CURRENCY_CSV_FILEPATH
 from backend.src.config import FetchConfig
 
 
-def fetch_nbp_api(fetch_config: FetchConfig) -> None:
+def fetch_nbp_api() -> None:
     """Executes fetching and saving data. Used as a cyclic task for scheduler"""
 
+    fetch_config = FetchConfig()
     nbp_fetcher = NbpFetcher(fetch_config=fetch_config)
 
     fetched_rates = nbp_fetcher.get_fetched_rates()

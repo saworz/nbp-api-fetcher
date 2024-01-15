@@ -16,7 +16,7 @@ config = Config().dev_config
 fetch_config = FetchConfig()
 
 scheduler = BackgroundScheduler()
-job = scheduler.add_job(fetch_nbp_api, args=[fetch_config], next_run_time=datetime.now(), trigger="cron",
+job = scheduler.add_job(fetch_nbp_api, next_run_time=datetime.now(), trigger="cron",
                         day="*", hour="00", minute="00", max_instances=1)
 
 app.register_blueprint(routes)

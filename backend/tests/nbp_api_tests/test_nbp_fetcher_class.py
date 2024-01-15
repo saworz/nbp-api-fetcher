@@ -1,5 +1,5 @@
 import pytest
-from backend.src.services.cyclic_job import fetch_config
+from backend.src import fetch_config
 from backend.src.services.fetch_nbp import NbpFetcher
 
 
