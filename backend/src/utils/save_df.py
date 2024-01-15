@@ -21,6 +21,6 @@ def save_df_as_csv(df: pd.DataFrame, file_path: str) -> None:
             os.makedirs(data_dir)
 
         df.to_csv(file_path, index=False)
-        logging.info("Data saved to all_currency_data.csv successfully.")
+        logging.info(f"Data saved to {file_path} successfully.")
     except Exception as e:
-        logging.error(f"Error while saving data to all_currency_data.csv: {e}")
+        logging.error(f"Error while saving data to {file_path}: {e}")
