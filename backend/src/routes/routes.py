@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint
 from flask_cors import cross_origin
-from backend.src.utils.read_csv import read_file
+from backend.src.utils.read_csv_timeseries import read_csv_as_df
 from backend.src.utils.df_convert import get_rates_dict, get_currencies_list
 from backend.src.constants import SELECTED_CURRENCY_CSV_FILEPATH, ALL_CURRENCY_CSV_FILEPATH
 from flask_pydantic import validate
@@ -20,7 +20,7 @@ def get_currency_types():
     if not os.path.exists(ALL_CURRENCY_CSV_FILEPATH):
         fetch_nbp_api()
 
-    df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
+    df = read_csv_as_df(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
     if df is None:
         return {"message": "Error loading exchange rates"}, 500
@@ -45,7 +45,7 @@ def get_exchange_rates(query: GetExchangeRatesRequest):
     if not os.path.exists(ALL_CURRENCY_CSV_FILEPATH):
         fetch_nbp_api()
 
-    df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
+    df = read_csv_as_df(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
     if df is None:
         return {"message": "Error loading exchange rates"}, 500
@@ -70,7 +70,7 @@ def analyze_data(query: AnalyzeDataRequest):
     if not os.path.exists(ALL_CURRENCY_CSV_FILEPATH):
         fetch_nbp_api()
 
-    df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
+    df = read_csv_as_df(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
     if df is None:
         return {"message": "Error loading exchange rates"}, 500
@@ -105,7 +105,7 @@ def save_exchange_rates(body: SaveExchangeRatesRequest):
     if not os.path.exists(ALL_CURRENCY_CSV_FILEPATH):
         fetch_nbp_api()
 
-    df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
+    df = read_csv_as_df(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
     if df is None:
         return {"message": "Error loading exchange rates"}, 500

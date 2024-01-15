@@ -2,7 +2,7 @@ import pandas as pd
 import logging
 
 
-def read_file(file_path: str) -> pd.DataFrame | None:
+def read_csv_as_df(file_path: str) -> pd.DataFrame | None:
     """Reads .csv file with exchange rates and saves it as dataframe"""
     try:
         df = pd.read_csv(file_path)
