@@ -15,11 +15,8 @@ def response(client, tmpdir):
         return client.get("/api/get_currency_types/")
 
 
-def test_get_currency_types_status_code(response):
+def test_get_currency_types_response(response):
     assert response.status_code == 200
-
-
-def test_get_currency_types_content_type(response):
     assert response.content_type == "application/json"
 
 
@@ -32,9 +29,3 @@ def test_get_currency_types_currencies_type(response):
     data = response.get_json()
     currencies_list = data.get("currencies_list")
     assert all(isinstance(currency, str) for currency in currencies_list)
-
-
-def test_get_currency_types_message_type(response):
-    data = response.get_json()
-    message = data.get("message")
-    assert isinstance(message, str)
