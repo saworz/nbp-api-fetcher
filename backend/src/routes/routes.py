@@ -1,8 +1,8 @@
 from flask import Blueprint
 from flask_cors import cross_origin
-from ..utils.read_csv import read_file
-from ..utils.df_convert import get_rates_dict, get_currencies_list
-from ..constants import SELECTED_CURRENCY_CSV_FILEPATH, ALL_CURRENCY_CSV_FILEPATH
+from backend.src.utils.read_csv import read_file
+from backend.src.utils.df_convert import get_rates_dict, get_currencies_list
+from backend.src.constants import SELECTED_CURRENCY_CSV_FILEPATH, ALL_CURRENCY_CSV_FILEPATH
 from flask_pydantic import validate
 from .request_validators import GetExchangeRatesRequest, SaveExchangeRatesRequest, AnalyzeDataRequest
 from .response_validators import AnalyzeDataResponse, CurrencyTypesResponse, GetExchangeRatesResponse

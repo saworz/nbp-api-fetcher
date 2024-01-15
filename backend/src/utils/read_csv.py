@@ -1,7 +1,7 @@
 import os.path
 import pandas as pd
 import logging
-from ..services.cyclic_job import fetch_nbp_api
+from backend.src.services.cyclic_job import fetch_nbp_api
 
 
 def read_file(file_path: str) -> pd.DataFrame | None:
