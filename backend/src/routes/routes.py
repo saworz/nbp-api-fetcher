@@ -1,13 +1,13 @@
 import os
 from flask import Blueprint
 from flask_cors import cross_origin
-from backend.src.utils.read_csv_timeseries import read_csv_as_df
-from backend.src.utils.get_df_data import get_filtered_df_as_dict, get_df_columns_names
-from backend.src.constants import SELECTED_CURRENCY_CSV_FILEPATH, ALL_CURRENCY_CSV_FILEPATH
+from src.utils.read_csv_timeseries import read_csv_as_df
+from src.utils.get_df_data import get_filtered_df_as_dict, get_df_columns_names
+from src.constants import SELECTED_CURRENCY_CSV_FILEPATH, ALL_CURRENCY_CSV_FILEPATH
+from src.services.cyclic_job import fetch_nbp_api
 from flask_pydantic import validate
 from .request_validators import GetExchangeRatesRequest, SaveExchangeRatesRequest, AnalyzeDataRequest
 from .response_validators import AnalyzeDataResponse, CurrencyTypesResponse, GetExchangeRatesResponse
-from backend.src.services.cyclic_job import fetch_nbp_api
 
 routes = Blueprint('routes', __name__)
 

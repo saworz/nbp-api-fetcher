@@ -1,9 +1,9 @@
 import logging
 from .fetch_nbp import NbpFetcher
-from backend.src.utils.save_df import save_df_as_csv
-from backend.src.utils.build_df import create_exchange_rates_df, calculate_rates, create_dates_column
-from backend.src.constants import ALL_CURRENCY_CSV_FILEPATH
-from backend.src.config import FetchConfig
+from src.utils.save_df import save_df_as_csv
+from src.utils.build_df import create_exchange_rates_df, calculate_rates, create_dates_column
+from src.constants import ALL_CURRENCY_CSV_FILEPATH
+from src.config import FetchConfig
 
 
 def fetch_nbp_api() -> None:
