@@ -5,10 +5,7 @@ from backend.src.services.fetch_nbp import NbpFetcher
 
 @pytest.fixture
 def fetcher_instance():
-    return NbpFetcher(table_type=fetch_config.table_type,
-                      days_to_start=fetch_config.days_to_start,
-                      days_to_end=fetch_config.days_to_end,
-                      currency_to_fetch=fetch_config.currency_to_fetch)
+    return NbpFetcher(fetch_config=fetch_config)
 
 
 def test_nbp_fetched_data(fetcher_instance):
