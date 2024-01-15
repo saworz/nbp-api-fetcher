@@ -1,6 +1,5 @@
 from src import config, app, scheduler
 from src.services.cyclic_job import fetch_nbp_api
-import os
 
 if __name__ == "__main__":
     """Main execution script"""
