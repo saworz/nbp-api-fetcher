@@ -1,3 +1,4 @@
+import logging
 from .fetch_nbp import NbpFetcher
 from backend.src.utils.save_df import save_df_as_csv
 from backend.src.utils.build_df import create_exchange_rates_df, calculate_rates, create_dates_column
@@ -22,5 +23,8 @@ def fetch_nbp_api() -> None:
     df = create_exchange_rates_df(df=df, exchange_rates=fetched_rates)
     df = calculate_rates(df=df)
 
-    save_df_as_csv(df=df,
-                   file_path=ALL_CURRENCY_CSV_FILEPATH)
+    try:
+        save_df_as_csv(df=df,
+                       file_path=ALL_CURRENCY_CSV_FILEPATH)
+    except Exception as e:
+        logging.error(f"No exchange rates to save: {e}")

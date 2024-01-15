@@ -6,8 +6,7 @@ import logging
 def save_df_as_csv(df: pd.DataFrame, file_path: str) -> None:
     """Handles saving dataframe to .csv file"""
     if df.empty:
-        logging.error("No exchange rates to save")
-        return
+        raise Exception("No exchange rates to save")
 
     try:
         data_dir, filename = os.path.split(file_path)
