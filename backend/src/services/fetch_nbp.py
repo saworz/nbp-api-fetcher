@@ -1,17 +1,16 @@
 import requests
 import logging
+from pydantic import BaseModel
 from typing import List, Dict
 from ..utils.format_date import format_date
-from ..config import FetchConfig
 
 
-class NbpFetcher:
+class NbpFetcher(BaseModel):
     """Handles fetching data from nbp api"""
-    def __init__(self, fetch_config: FetchConfig):
-        self.table_type = fetch_config.table_type
-        self.days_to_start = fetch_config.days_to_start
-        self.days_to_end = fetch_config.days_to_end
-        self.currency_to_fetch = fetch_config.currency_to_fetch
+    table_type: str
+    days_to_start: int
+    days_to_end: int
+    currency_to_fetch: List[str]
 
     def fetch_data(self, currency_name: str) -> List[Dict] | None:
         """Fetches data from nbp api and returns it as a list of dicts"""
