@@ -12,18 +12,18 @@ class FetchConfig(BaseModel):
 
 class ProductionConfig(BaseModel):
     """Flask production config"""
-    DEBUG: bool = False
-    USE_RELOADER: bool = False
-    PORT: int = 5000
-    HOST: str = "0.0.0.0"
+    debug: bool = False
+    use_reloader: bool = False
+    port: int = 5000
+    host: str = "0.0.0.0"
 
 
 class DevConfig(BaseModel):
     """Flask dev config"""
-    DEBUG: bool = True
-    USE_RELOADER: bool = False
-    PORT: int = 5000
-    HOST: str = "0.0.0.0"
+    debug: bool = True
+    use_reloader: bool = False
+    port: int = 5000
+    host: str = "0.0.0.0"
 
 
 class Config(BaseModel):
