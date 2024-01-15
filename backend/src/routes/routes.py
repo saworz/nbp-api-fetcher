@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint
 from flask_cors import cross_origin
 from backend.src.utils.read_csv import read_file
@@ -6,6 +7,7 @@ from backend.src.constants import SELECTED_CURRENCY_CSV_FILEPATH, ALL_CURRENCY_C
 from flask_pydantic import validate
 from .request_validators import GetExchangeRatesRequest, SaveExchangeRatesRequest, AnalyzeDataRequest
 from .response_validators import AnalyzeDataResponse, CurrencyTypesResponse, GetExchangeRatesResponse
+from backend.src.services.cyclic_job import fetch_nbp_api
 
 routes = Blueprint('routes', __name__)
 
@@ -14,6 +16,9 @@ routes = Blueprint('routes', __name__)
 @validate()
 def get_currency_types():
     """Endpoint for getting list of currency types available"""
+
+    if not os.path.exists(ALL_CURRENCY_CSV_FILEPATH):
+        fetch_nbp_api()
 
     df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
@@ -37,6 +42,9 @@ def get_exchange_rates(query: GetExchangeRatesRequest):
     if not requested_currencies:
         return {"message": "No currencies to query received"}, 404
 
+    if not os.path.exists(ALL_CURRENCY_CSV_FILEPATH):
+        fetch_nbp_api()
+
     df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
     if df is None:
@@ -58,6 +66,9 @@ def analyze_data(query: AnalyzeDataRequest):
 
     if not requested_currencies:
         return {"message": "No currencies to query received"}, 404
+
+    if not os.path.exists(ALL_CURRENCY_CSV_FILEPATH):
+        fetch_nbp_api()
 
     df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
@@ -91,13 +102,17 @@ def save_exchange_rates(body: SaveExchangeRatesRequest):
     if not requested_currencies:
         return {"message": "No currencies to query received"}, 404
 
+    if not os.path.exists(ALL_CURRENCY_CSV_FILEPATH):
+        fetch_nbp_api()
+
+    df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
+
+    if df is None:
+        return {"message": "Error loading exchange rates"}, 500
+
+    filtered_df = df[requested_currencies]
+
     try:
-        df = read_file(file_path=ALL_CURRENCY_CSV_FILEPATH)
-
-        if df is None:
-            return {"message": "Error loading exchange rates"}, 500
-
-        filtered_df = df[requested_currencies]
         filtered_df.to_csv(SELECTED_CURRENCY_CSV_FILEPATH)
 
         return {"message": f"Exchange rates for {requested_currencies} saved "
