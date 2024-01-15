@@ -5,10 +5,8 @@ from backend.src.utils.build_df import create_exchange_rates_df, calculate_rates
 from backend.src.constants import ALL_CURRENCY_CSV_FILEPATH
 from backend.src.config import FetchConfig
 
-fetch_config = FetchConfig()
 
-
-def fetch_nbp_api() -> None:
+def fetch_nbp_api(fetch_config: FetchConfig) -> None:
     """Executes fetching and saving data. Used as a cyclic task for scheduler"""
 
     nbp_fetcher = NbpFetcher(fetch_config=fetch_config)
