@@ -51,7 +51,7 @@ You have also mentioned Docker in job requirements so I have packed app in docke
 ### 2. Fetching currency data
 I have created NbpFetcher class that handles fetching data from nbp api. Requests are made for
 specified list of currencies named with Currency Codes ISO 4217 convention.<br/>
-Fetched data is passed to CsvConverter class that saves it to .csv file. It utilizes pandas
+Fetched data is converted to pandas dataframe and then saved to .csv file. It utilizes pandas
 because it makes handling column data and .csv converting easy.
 
 ### 3. Data selection
@@ -61,7 +61,7 @@ available currencies fetched from the /api/get_currency_types/ endpoint.<br/>
 ![data-selection-image](https://github.com/saworz/images/blob/main/nbp-fetcher-1.png?raw=true)
 
 ### 4. Saving data
-CsvConverted mentioned in paragraph 2 saves the data to .csv file named "all_currency_data.csv" file.
+Dataframe mentioned in paragraph 2 saves the data to .csv file named "all_currency_data.csv" file.
 By selecting data with checkboxes user can choose currency pairs exchange rates to save, either locally
 or to the server. <b>Download as .csv</b> button downloads .csv file with selected pairs and 
 <b>Save to server</b> saves the same file to the server.
