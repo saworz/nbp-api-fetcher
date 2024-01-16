@@ -87,5 +87,5 @@ as info popups in the upper-left side of the screen. Results are visible on the 
 
 ### 8. Cyclic fetching
 APScheduler takes care of fetching nbp exchange rates data once a day at 00:00. <b>fetch_nbp_api</b>
-function is used as a cyclic job and the scheduler is started by running main.py script.
+function is used as a cyclic job and the scheduler is started by running app.py script.
 ![cyclic-task-image](https://github.com/saworz/images/blob/main/nbp-fetcher-4.png?raw=true)
