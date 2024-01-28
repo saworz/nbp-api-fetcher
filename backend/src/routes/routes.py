@@ -2,9 +2,9 @@ import os
 from flask import Blueprint
 from flask_cors import cross_origin
 from backend.src.utils.read_csv_timeseries import read_csv_as_df
+from backend.src.utils.fetch_loop import call_fetch_task
 from backend.src.utils.get_df_data import get_filtered_df_as_dict, get_df_columns_names
 from backend.src.constants import SELECTED_CURRENCY_CSV_FILEPATH, ALL_CURRENCY_CSV_FILEPATH
-from backend.src.services.cyclic_job import fetch_nbp_api
 from flask_pydantic import validate
 from .request_validators import GetExchangeRatesRequest, SaveExchangeRatesRequest, AnalyzeDataRequest
 from .response_validators import AnalyzeDataResponse, CurrencyTypesResponse, GetExchangeRatesResponse
@@ -18,7 +18,7 @@ def get_currency_types():
     """Endpoint for getting list of currency types available"""
 
     if not os.path.exists(ALL_CURRENCY_CSV_FILEPATH):
-        fetch_nbp_api()
+        call_fetch_task()
 
     df = read_csv_as_df(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
@@ -43,7 +43,7 @@ def get_exchange_rates(query: GetExchangeRatesRequest):
         return {"message": "No currencies to query received"}, 404
 
     if not os.path.exists(ALL_CURRENCY_CSV_FILEPATH):
-        fetch_nbp_api()
+        call_fetch_task()
 
     df = read_csv_as_df(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
@@ -51,7 +51,7 @@ def get_exchange_rates(query: GetExchangeRatesRequest):
         return {"message": "Error loading exchange rates"}, 500
 
     exchange_rates = get_filtered_df_as_dict(df=df,
-                                    requested_currencies=requested_currencies)
+                                             requested_currencies=requested_currencies)
 
     return GetExchangeRatesResponse(
         exchange_rates=exchange_rates,
@@ -65,10 +65,10 @@ def analyze_data(query: AnalyzeDataRequest):
     requested_currencies = query.currencies
 
     if not requested_currencies:
-        return {"message": "No currencies to query received"}, 404
+        return {"message": "No currencies to analyze received"}, 404
 
     if not os.path.exists(ALL_CURRENCY_CSV_FILEPATH):
-        fetch_nbp_api()
+        call_fetch_task()
 
     df = read_csv_as_df(file_path=ALL_CURRENCY_CSV_FILEPATH)
 
@@ -100,10 +100,10 @@ def save_exchange_rates(body: SaveExchangeRatesRequest):
     requested_currencies = body.currency_pairs
 
     if not requested_currencies:
-        return {"message": "No currencies to query received"}, 404
+        return {"message": "No currencies to save received"}, 404
 
     if not os.path.exists(ALL_CURRENCY_CSV_FILEPATH):
-        fetch_nbp_api()
+        call_fetch_task()
 
     df = read_csv_as_df(file_path=ALL_CURRENCY_CSV_FILEPATH)
 

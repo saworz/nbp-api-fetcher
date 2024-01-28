@@ -2,7 +2,7 @@ import logging
 from flask import Flask
 from flask_cors import CORS
 from .config import Config, FetchConfig
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from .services.cyclic_job import fetch_nbp_api
 from .routes.routes import routes
 from datetime import datetime
@@ -15,7 +15,7 @@ CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 config = Config().dev_config
 fetch_config = FetchConfig()
 
-scheduler = BackgroundScheduler()
+scheduler = AsyncIOScheduler()
 job = scheduler.add_job(fetch_nbp_api, next_run_time=datetime.now(), trigger="cron",
                         day="*", hour="00", minute="00", max_instances=1)
 
