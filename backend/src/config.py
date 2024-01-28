@@ -16,6 +16,7 @@ class ProductionConfig(BaseModel):
     use_reloader: bool = False
     port: int = 5000
     host: str = "0.0.0.0"
+    threaded: bool = True
 
 
 class DevConfig(BaseModel):
@@ -24,6 +25,7 @@ class DevConfig(BaseModel):
     use_reloader: bool = False
     port: int = 5000
     host: str = "0.0.0.0"
+    threaded: bool = True
 
 
 class Config(BaseModel):
