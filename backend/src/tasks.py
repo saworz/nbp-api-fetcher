@@ -6,7 +6,8 @@ def flask_server() -> None:
         debug=config.DEBUG,
         use_reloader=config.USE_RELOADER,
         host=config.HOST,
-        port=config.PORT
+        port=config.PORT,
+        threaded=True
     )
 
 

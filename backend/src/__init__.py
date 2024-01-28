@@ -17,6 +17,6 @@ fetch_config = FetchConfig()
 
 scheduler = AsyncIOScheduler()
 job = scheduler.add_job(fetch_nbp_api, next_run_time=datetime.now(), trigger="cron",
-                        day="*", hour="23", minute="50", max_instances=1)
+                        day="*", hour="00", minute="00", max_instances=1)
 
 app.register_blueprint(routes)
