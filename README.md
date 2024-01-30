@@ -83,7 +83,7 @@ Data types are validated using Pydantic and Flask-Pydantic for api requests and 
 ### 7. Data analysis
 /api/analyze_data/ endpoint analyzes data for provided list of currency pairs. It also utilizes pandas library
 to find average, median, min and max values easily. They are returned to the frontend and displayed
-as info popups in the upper-left side of the screen. Results are visible on the image above.
+as info popups in the upper-left side of the screen. Results are visible on the image in paragraph 5.
 
 ### 8. Cyclic fetching
 APScheduler takes care of fetching nbp exchange rates data once a day at 00:00. <b>fetch_nbp_api</b>
