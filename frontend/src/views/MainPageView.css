@@ -1,0 +1,35 @@
+.content-div{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+  
+    width: 600px;
+    height: 600px;
+  
+    background-color: rgb(25, 25, 25);
+    border-radius: 10px;
+  
+    align-items: center;
+  
+  }
+  
+  .content-div h2{
+    color: white;
+  }
+  
+  .buttons-field {
+    display: flex;
+  }
+  
+  .single-button {
+    margin: 20px;
+  }
+  
+  .save-status {
+    color: white;
+    padding: 5px;
+    background-color: rgba(255,244,224,0.4);
+    border-radius: 3px;
+    max-width: 90%;
+    text-align: center;
+  }
