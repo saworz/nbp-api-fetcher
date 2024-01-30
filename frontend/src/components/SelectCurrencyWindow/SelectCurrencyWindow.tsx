@@ -3,9 +3,13 @@ import fetchCurrencyTypes from 'api/fetchCurrencyTypes';
 import { useEffect, useState } from "react";
 import CurrencyRow from "components/CurrencyRow";
 
-// export const SelectCurrencyWindow = ({ onCurrenciesChange, selectedCurrencies }) => {
-export const SelectCurrencyWindow: React.FC = () => {
 
+interface ISelectCurrency {
+  onCurrenciesChange: Function;
+  selectedCurrencies: string[];
+}
+
+export const SelectCurrencyWindow: React.FC<ISelectCurrency> = ({ onCurrenciesChange, selectedCurrencies }) => {
   const [currencies, setCurrencies] = useState<string[]>();
   useEffect(() => {
     const fetchData = async () => {
@@ -15,6 +19,20 @@ export const SelectCurrencyWindow: React.FC = () => {
 
     fetchData();
   }, []);
+
+  const handleCheckboxChange = (currencyPair: string) => {
+    const isSelected = selectedCurrencies.some(
+      (selectedPair) => selectedPair === currencyPair
+    );
+
+    if (isSelected) {
+      onCurrenciesChange((prevSelected: string[]) =>
+        prevSelected.filter((selectedPair) => selectedPair !== currencyPair)
+      );
+    } else {
+      onCurrenciesChange((prevSelected: string[]) => [...prevSelected, currencyPair]);
+    }
+  };
 
   return (
     <div className="window">
@@ -26,12 +44,12 @@ export const SelectCurrencyWindow: React.FC = () => {
                 <div>
                   <CurrencyRow currencyPair={currencyPair}/>
                 </div>
-                {/* <div className="checkbox-container">
+                <div className="checkbox-container">
                   <input className="checkbox"
                          type="checkbox"
                          onChange={() => handleCheckboxChange(currencyPair)}
                   />
-                </div> */}
+                </div>
               </div>
             </div>
 
