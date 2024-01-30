@@ -45,7 +45,7 @@ create web app that runs with Flask server and React frontend.
 Server is pretty compact and contains only few endpoints and Django would be overkill for such
 a simple task so I've chosen Flask.
 I could stick with pure Python and create visualization with Streamlit, but I've started learning
-MERN stack so I decided to show of some of my frontend skills with HTML, CSS, JS and React.<br/>
+MERN stack so I decided to show of some of my frontend skills with HTML, CSS, JS, React and Typescript.<br/>
 You have also mentioned Docker in job requirements so I have packed app in docker network.
 
 ### 2. Fetching currency data
