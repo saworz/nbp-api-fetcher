@@ -46,7 +46,7 @@ const CurrencyRow: React.FC<ICurrencyPair> = ({ currencyPair }) => {
         <img src={baseCountryFlagUrl} alt={baseCountryCode} />
       )}
       <div className="exchange-text">
-        {baseCurrency} ⮞ {targetCurrency}
+        {baseCurrency} &rarr; {targetCurrency}
       </div>
       {targetCountryFlagUrl && (
         <img src={targetCountryFlagUrl} alt={targetCountryCode} />
