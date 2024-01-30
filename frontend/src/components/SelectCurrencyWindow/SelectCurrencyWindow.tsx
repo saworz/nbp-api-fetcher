@@ -1,7 +1,7 @@
 import "./SelectCurrencyWindow.css";
 import fetchCurrencyTypes from 'api/fetchCurrencyTypes';
 import { useEffect, useState } from "react";
-// import CurrenciesRow from "../CurrenciesRow";
+import CurrencyRow from "components/CurrencyRow";
 
 // export const SelectCurrencyWindow = ({ onCurrenciesChange, selectedCurrencies }) => {
 export const SelectCurrencyWindow: React.FC = () => {
@@ -24,8 +24,7 @@ export const SelectCurrencyWindow: React.FC = () => {
             <div key={index} className="currency-row">
               <div className="exchange-type">
                 <div>
-                  {/* <CurrenciesRow currencyPair={currencyPair}/> */}
-                  row
+                  <CurrencyRow currencyPair={currencyPair}/>
                 </div>
                 {/* <div className="checkbox-container">
                   <input className="checkbox"
