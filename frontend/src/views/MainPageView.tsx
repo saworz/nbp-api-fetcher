@@ -1,4 +1,6 @@
 import SelectCurrencyWindow from "components/SelectCurrencyWindow";
+import SaveButton from "components/Buttons/SaveButton";
+import DownloadButton from "components/Buttons/DownloadButton";
 import { useState } from "react";
 import "./MainPageView.css";
 
@@ -21,10 +23,16 @@ const MainPageView: React.FC = () => {
 
       <div className="buttons-field">
         <div className="single-button">
-            Download button
+          <DownloadButton
+            selectedCurrencies={selectedCurrencies}
+            disabled={disableButton}
+          />
         </div>
         <div className="single-button">
-            Save button
+          <SaveButton
+            selectedCurrencies={selectedCurrencies}
+            disabled={disableButton}
+          />
         </div>
       </div>
     </div>
