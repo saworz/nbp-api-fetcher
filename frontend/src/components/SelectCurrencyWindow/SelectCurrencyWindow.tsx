@@ -1,20 +1,22 @@
 import "./SelectCurrencyWindow.css";
-import fetchCurrencyTypes from 'api/fetchCurrencyTypes';
+import fetchCurrencyTypes from "api/fetchCurrencyTypes";
 import { useEffect, useState } from "react";
 import CurrencyRow from "components/CurrencyRow";
-
 
 interface ISelectCurrency {
   onCurrenciesChange: Function;
   selectedCurrencies: string[];
 }
 
-export const SelectCurrencyWindow: React.FC<ISelectCurrency> = ({ onCurrenciesChange, selectedCurrencies }) => {
+export const SelectCurrencyWindow: React.FC<ISelectCurrency> = ({
+  onCurrenciesChange,
+  selectedCurrencies,
+}) => {
   const [currencies, setCurrencies] = useState<string[]>();
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchCurrencyTypes();
-      setCurrencies(data)
+      setCurrencies(data);
     };
 
     fetchData();
@@ -30,7 +32,10 @@ export const SelectCurrencyWindow: React.FC<ISelectCurrency> = ({ onCurrenciesCh
         prevSelected.filter((selectedPair) => selectedPair !== currencyPair)
       );
     } else {
-      onCurrenciesChange((prevSelected: string[]) => [...prevSelected, currencyPair]);
+      onCurrenciesChange((prevSelected: string[]) => [
+        ...prevSelected,
+        currencyPair,
+      ]);
     }
   };
 
@@ -42,21 +47,21 @@ export const SelectCurrencyWindow: React.FC<ISelectCurrency> = ({ onCurrenciesCh
             <div key={index} className="currency-row">
               <div className="exchange-type">
                 <div>
-                  <CurrencyRow currencyPair={currencyPair}/>
+                  <CurrencyRow currencyPair={currencyPair} />
                 </div>
                 <div className="checkbox-container">
-                  <input className="checkbox"
-                         type="checkbox"
-                         onChange={() => handleCheckboxChange(currencyPair)}
+                  <input
+                    className="checkbox"
+                    type="checkbox"
+                    onChange={() => handleCheckboxChange(currencyPair)}
                   />
                 </div>
               </div>
             </div>
-
           ))}
         </div>
       ) : (
-        <div className='error-message'>
+        <div className="error-message">
           Failed to load resources from the server 🥺
         </div>
       )}
@@ -65,4 +70,3 @@ export const SelectCurrencyWindow: React.FC<ISelectCurrency> = ({ onCurrenciesCh
 };
 
 export default SelectCurrencyWindow;
-

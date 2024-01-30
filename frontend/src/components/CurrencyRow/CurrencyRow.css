@@ -1,24 +1,24 @@
 .flags {
-    display: flex;
-    flex-direction: row;
-    margin-left: 30px;
-  }
-  
-  .flags img{
-    max-width: 90px;
-    max-height: 90px;
-  
-    margin: 0;
-  }
-  
-  .exchange-text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-    width: 120px;
-    margin-left: 20px;
-    margin-right: 20px;
-  
-    font-weight: bold;
-  }
+  display: flex;
+  flex-direction: row;
+  margin-left: 30px;
+}
+
+.flags img {
+  max-width: 90px;
+  max-height: 90px;
+
+  margin: 0;
+}
+
+.exchange-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 120px;
+  margin-left: 20px;
+  margin-right: 20px;
+
+  font-weight: bold;
+}

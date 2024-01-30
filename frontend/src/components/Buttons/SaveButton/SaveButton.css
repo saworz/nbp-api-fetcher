@@ -1,15 +1,15 @@
 .disabled {
-    cursor: not-allowed;
-  }
-  
-  .enabled {
-    cursor: pointer;
-  }
-  
-  .enabled:hover {
-    filter: brightness(80%);
-  }
-  
-  .Toastify__toast-body{
-    white-space: pre-line;
-  }
+  cursor: not-allowed;
+}
+
+.enabled {
+  cursor: pointer;
+}
+
+.enabled:hover {
+  filter: brightness(80%);
+}
+
+.Toastify__toast-body {
+  white-space: pre-line;
+}

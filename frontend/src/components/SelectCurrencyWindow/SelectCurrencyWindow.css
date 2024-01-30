@@ -1,42 +1,42 @@
 .window {
-    width: 80%;
-    height: 450px;
-    overflow-y: auto;
-  
-    background-color: rgb(235, 237, 239);
-    border-radius: 3px;
-  
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .currency-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-    height: 100px;
-  }
-  
-  .exchange-type {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 200px;
-    height: 50px;
-  }
-  
-  .checkbox-container {
-    display: flex;
-    margin-left: 20px;
-  }
-  
-  .checkbox:hover {
-    filter: brightness(80%);
-    cursor: pointer;
-  }
-  
-  .error-message {
-    display: flex;
-    margin: auto;
-  }
+  width: 80%;
+  height: 450px;
+  overflow-y: auto;
+
+  background-color: rgb(235, 237, 239);
+  border-radius: 3px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.currency-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100px;
+}
+
+.exchange-type {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 50px;
+}
+
+.checkbox-container {
+  display: flex;
+  margin-left: 20px;
+}
+
+.checkbox:hover {
+  filter: brightness(80%);
+  cursor: pointer;
+}
+
+.error-message {
+  display: flex;
+  margin: auto;
+}
