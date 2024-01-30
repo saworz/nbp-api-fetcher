@@ -1,9 +1,15 @@
 import "./SaveButton.css"
-import postRatesToSave from "../../../api/PostRatesToSave";
-import fetchAnalyzedData from "../../../api/FetchAnalyzedData";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
+import postRatesToSave from "api/PostRatesToSave";
+import fetchAnalyzedData from "api/FetchAnalyzedData";
 
-export const SaveButton = ({ selectedCurrencies, disabled }) => {
+
+interface SaveButtonProps {
+  selectedCurrencies: string[];
+  disabled: boolean
+}
+
+export const SaveButton: React.FC<SaveButtonProps> = ({ selectedCurrencies, disabled }) => {
 
   const postData = async () => {
     try {
