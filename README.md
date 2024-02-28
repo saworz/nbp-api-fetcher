@@ -1,4 +1,4 @@
-# Recrutation task
+# NBP API Fetcher
 
 Web app to download, analyze and save currency exchange rates for specified currency pairs. <br/>
 
